@@ -49,11 +49,14 @@ jobs:
       - name: List available simulators
         run: xcrun simctl list devices available
       
+      - name: Start Metro bundler
+        run: |
+          npx react-native start &
+          sleep 10
+      
       - name: Build and install iOS app
         run: |
-          npx react-native run-ios --simulator="iPhone 16" --no-packager
-        env:
-          RCT_NO_LAUNCH_PACKAGER: 1
+          npx react-native run-ios --simulator="iPhone 16"
       
       - name: Run Maestro tests
         run: |
