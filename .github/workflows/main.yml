@@ -1,0 +1,71 @@
+name: Maestro iOS Tests - Main
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-ios:
+    name: Run Maestro Tests on iOS
+    runs-on: macos-14
+    timeout-minutes: 30
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Setup Java 17 (Maestro prerequisite)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: Install npm dependencies
+        run: npm install
+      
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          pod install
+          cd ..
+      
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+      
+      - name: Verify Maestro installation
+        run: |
+          export PATH="$HOME/.maestro/bin:$PATH"
+          maestro --version
+      
+      - name: List available simulators
+        run: xcrun simctl list devices available
+      
+      - name: Build and install iOS app
+        run: |
+          npx react-native run-ios --simulator="iPhone 16" --no-packager
+        env:
+          RCT_NO_LAUNCH_PACKAGER: 1
+      
+      - name: Run Maestro tests
+        run: |
+          export PATH="$HOME/.maestro/bin:$PATH"
+          maestro test .maestro/
+      
+      - name: Upload Maestro test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-test-results
+          path: |
+            ~/.maestro/tests/**/*
+            /tmp/maestro-*
+          if-no-files-found: warn

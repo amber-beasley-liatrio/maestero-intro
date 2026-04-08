@@ -48,7 +48,7 @@
 
 ---
 
-### [ ] 2.0 GitHub Actions Workflow Configuration and CI Verification
+### [~] 2.0 GitHub Actions Workflow Configuration and CI Verification
 
 **Purpose:** Translate the validated local Maestro setup into GitHub Actions workflows on macOS runners. This proves Maestro CLI works in CI using the same simple commands, with Maestro handling device and app management automatically.
 
@@ -62,12 +62,12 @@
 
 #### 2.0 Tasks
 
-- [ ] 2.1 Create `.github/workflows/main.yml` with macOS runner, Node.js setup, npm install, and Maestro CLI installation
-- [ ] 2.2 Add Java 17+ installation step using `actions/setup-java@v4` action as prerequisite for Maestro CLI
-- [ ] 2.3 Add Maestro CLI installation using official curl script and configure PATH with `$HOME/.maestro/bin`
-- [ ] 2.4 Add Maestro test execution step using `maestro test .maestro/` (Maestro handles device provisioning and app launching)
-- [ ] 2.5 Create `.github/workflows/pr.yml` for pull requests with same test execution
-- [ ] 2.6 Push changes to trigger workflows and verify successful execution with all tests passing
+- [x] 2.1 Create `.github/workflows/main.yml` with macOS runner, Node.js setup, npm install, and Maestro CLI installation
+- [x] 2.2 Add Java 17+ installation step using `actions/setup-java@v4` action as prerequisite for Maestro CLI
+- [x] 2.3 Add Maestro CLI installation using official curl script and configure PATH with `$HOME/.maestro/bin`
+- [x] 2.4 Add Maestro test execution step using `maestro test .maestro/` (Maestro handles device provisioning and app launching)
+- [x] 2.5 Create `.github/workflows/pr.yml` for pull requests with same test execution
+- [~] 2.6 Push changes to trigger workflows and verify successful execution with all tests passing
 
 ---
 
