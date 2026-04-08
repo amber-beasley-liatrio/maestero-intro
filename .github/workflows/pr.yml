@@ -8,7 +8,7 @@ on:
 jobs:
   test-ios:
     name: Run Maestro Tests on iOS
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: 30
     
     steps:
