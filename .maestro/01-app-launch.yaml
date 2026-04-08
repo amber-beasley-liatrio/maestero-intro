@@ -1,0 +1,7 @@
+appId: org.reactjs.native.example.MaestroTestApp
+---
+- launchApp
+- assertVisible: "Step One"
+- assertVisible: "See Your Changes"
+- assertVisible: "Debug"
+- assertVisible: "Learn More"
