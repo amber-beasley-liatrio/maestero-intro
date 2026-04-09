@@ -119,3 +119,7 @@ temp/
 
 # CI/CD
 .github/workflows/*.log
+
+# Test reports (generated locally)
+*report*.xml
+*report*.html
