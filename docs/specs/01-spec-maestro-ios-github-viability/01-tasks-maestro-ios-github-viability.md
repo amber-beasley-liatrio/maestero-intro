@@ -71,7 +71,7 @@
 
 ---
 
-### [ ] 3.0 Test Reporting and CI Integration
+### [x] 3.0 Test Reporting and CI Integration
 
 **Purpose:** Enhance the GitHub Actions workflows with structured test reporting, generating JUnit XML and HTML reports for CI integration. This proves that tests produce usable output for automated checks and human review.
 
@@ -85,12 +85,12 @@
 
 #### 3.0 Tasks
 
-- [ ] 3.1 Test Maestro report generation locally using `maestro test --format junit --format html` to verify format support
-- [ ] 3.2 Update workflows to generate JUnit XML and HTML reports using `--format` flags
-- [ ] 3.3 Add workflow artifact upload steps using `actions/upload-artifact` for both report formats
-- [ ] 3.4 Verify workflow fails properly when tests fail with clear error output
-- [ ] 3.5 Verify test results appear in GitHub Actions workflow summary page with pass/fail status
-- [ ] 3.6 Create intentional test failure scenario to verify error detection and reporting
+- [x] 3.1 Test Maestro report generation locally using `maestro test --format junit --format html` to verify format support
+- [x] 3.2 Update workflows to generate JUnit XML and HTML reports using `--format` flags
+- [x] 3.3 Add workflow artifact upload steps using `actions/upload-artifact` for both report formats
+- [x] 3.4 Verify workflow fails properly when tests fail with clear error output
+- [x] 3.5 Verify test results appear in GitHub Actions workflow summary page with pass/fail status
+- [x] 3.6 Create intentional test failure scenario to verify error detection and reporting
 
 ---
 
