@@ -42,7 +42,7 @@ jobs:
       - name: Install CocoaPods dependencies
         run: |
           cd ios
-          pod install
+          pod install --silent
           cd ..
       
       - name: Install Maestro CLI
@@ -64,7 +64,7 @@ jobs:
       
       - name: Build and install iOS app
         run: |
-          npx react-native run-ios --udid=$SIMULATOR_UDID
+          npx react-native run-ios --udid=$SIMULATOR_UDID --extra-params "-quiet"
       
       - name: Run Maestro tests
         id: maestro-tests
