@@ -85,22 +85,21 @@ This specification defines the work required to verify that Maestro iOS testing 
 **Purpose:** Collect test execution time metrics, validate workflow completion within acceptable time thresholds, and demonstrate reliability by running multiple test iterations. This provides data-driven evidence for production adoption decisions.
 
 **Functional Requirements:**
-- The system shall measure and log test execution time (time to run all tests, excluding setup)
-- The system shall measure and log total workflow duration (including app build, simulator boot, Maestro installation, test execution, and report generation)
+- The system shall extract test execution time and total workflow duration from GitHub Actions workflow run logs using `gh cli` (no manual instrumentation required)
 - The system shall execute the complete test suite across 3 separate workflow runs (triggered by 3 separate commits) to validate consistency and prove reliability
-- The system shall generate performance metrics in structured format (JSON or CSV) including execution times, success/failure counts, and timestamps
+- The system shall generate performance metrics in structured format (JSON or CSV) including execution times, success/failure counts, and timestamps extracted from workflow logs
 - The system shall calculate cost estimates based on GitHub Actions macOS runner pricing and minutes consumed
 - The system shall validate that total workflow time remains under 15 minutes
 - The system shall validate that cost per test run remains under $0.50 (based on private repo pricing; public repos are free)
-- The system shall upload performance data as GitHub Actions artifacts
 - The system shall create a summary report document analyzing findings, performance trends, cost implications, and recommendations
 
 **Proof Artifacts:**
-- Performance metrics file: JSON or CSV file with timing data demonstrates measurement capability
-- Workflow completion times: Logs showing workflow duration under 15 minutes demonstrates acceptable performance
+- Performance metrics file: JSON or CSV file with timing data extracted from GitHub workflow logs using `gh cli` demonstrates measurement capability
+- Workflow completion times: GitHub Actions history showing workflow duration under 15 minutes demonstrates acceptable performance
 - Cost analysis: Summary report section calculating GitHub Actions minutes consumed and associated costs demonstrates cost viability
 - Summary report: Markdown document (`VIABILITY_REPORT.md`) synthesizing findings, identifying bottlenecks, and providing recommendations demonstrates actionable insights
 - Multiple successful workflow runs: GitHub Actions history showing 3 completed runs demonstrates reliability
+- `gh cli` extraction proof: Commands and output showing metrics extraction from workflow logs demonstrates data collection approach
 
 ## Non-Goals (Out of Scope)
 

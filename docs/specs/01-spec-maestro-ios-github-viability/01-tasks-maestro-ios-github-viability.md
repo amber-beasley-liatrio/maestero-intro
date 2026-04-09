@@ -94,24 +94,24 @@
 
 ---
 
-### [ ] 4.0 Performance Measurement and Scalability Validation
+### [~] 4.0 Performance Measurement and Scalability Validation
 
 **Purpose:** Collect test execution time metrics, validate workflow completion within acceptable time thresholds, and demonstrate reliability by running multiple test iterations. This provides data-driven evidence for production adoption decisions.
 
 #### 4.0 Proof Artifact(s)
 
-- File: `docs/viability-report/performance-metrics.json` or `.csv` with timing data, success/failure counts, and timestamps demonstrates measurement capability
+- File: `docs/viability-report/performance-metrics.json` with timing data extracted from GitHub workflow logs using `gh cli` demonstrates measurement capability
 - GitHub Actions history: 3 completed workflow runs (triggered by 3 separate commits) demonstrates reliability
 - Workflow logs: Multiple runs showing workflow duration <15 minutes demonstrates acceptable performance
 - File: `docs/viability-report/VIABILITY_REPORT.md` with findings, cost analysis, performance trends, and recommendations demonstrates actionable insights
 - Report section: Cost calculation based on GitHub Actions minutes consumed and macOS runner pricing demonstrates cost viability
+- CLI output: `gh run list` and `gh run view` commands showing metrics extraction demonstrates data collection approach
 
 #### 4.0 Tasks
 
-- [ ] 4.1 Add timing instrumentation to workflows to capture test execution time and total workflow duration
-- [ ] 4.2 Create script or workflow step to collect performance metrics (execution times, success/failure counts, timestamps) in structured JSON or CSV format
-- [ ] 4.3 Execute complete test suite 3 times by making 3 separate commits to main branch to trigger 3 workflow runs
-- [ ] 4.4 Collect and aggregate performance data from the 3 workflow runs into consolidated metrics file
-- [ ] 4.5 Calculate GitHub Actions cost estimates based on macOS runner pricing and total minutes consumed across 3 test runs
-- [ ] 4.6 Create `docs/viability-report/VIABILITY_REPORT.md` analyzing findings, performance trends, bottlenecks, cost implications, and recommendations
-- [ ] 4.7 Verify all success metrics: workflow duration <15 minutes, cost per run <$0.50, consistent performance across 3 runs
+- [~] 4.1 Use `gh run list` and `gh run view` to extract timing data from existing workflow runs (no manual instrumentation needed)
+- [ ] 4.2 Execute complete test suite 3 times by making 3 separate commits to main branch to trigger 3 workflow runs
+- [ ] 4.3 Collect and aggregate performance data from the 3 workflow runs using `gh cli` commands into consolidated metrics JSON file
+- [ ] 4.4 Calculate GitHub Actions cost estimates based on macOS runner pricing and total minutes consumed across 3 test runs
+- [ ] 4.5 Create `docs/viability-report/VIABILITY_REPORT.md` analyzing findings, performance trends, bottlenecks, cost implications, and recommendations
+- [ ] 4.6 Verify all success metrics: workflow duration <15 minutes, cost per run <$0.50, consistent performance across 3 runs
