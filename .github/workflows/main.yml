@@ -40,7 +40,6 @@ jobs:
             ${{ runner.os }}-pods-
       
       - name: Install CocoaPods dependencies
-        if: steps.pods-cache.outputs.cache-hit != 'true'
         run: |
           cd ios
           pod install
