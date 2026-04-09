@@ -59,16 +59,47 @@ jobs:
           npx react-native run-ios --simulator="iPhone 16"
       
       - name: Run Maestro tests
+        id: maestro-tests
+        continue-on-error: true
         run: |
           export PATH="$HOME/.maestro/bin:$PATH"
-          maestro test .maestro/
+          maestro test --format JUNIT --output junit-report.xml .maestro/
+          maestro test --format HTML-DETAILED --output test-report.html .maestro/
       
       - name: Upload Maestro test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: maestro-test-results-pr
+          name: maestro-test-results-${{ github.sha }}
           path: |
-            ~/.maestro/tests/**/*
-            /tmp/maestro-*
+            junit-report.xml
+            test-report.html
+          retention-days: 14
           if-no-files-found: warn
+      
+      - name: Test results summary
+        if: always()
+        run: |
+          echo "## 📱 Maestro iOS Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "junit-report.xml" ]; then
+            # Parse JUnit XML for summary (macOS-compatible)
+            tests=$(sed -n 's/.*tests="\([0-9]*\)".*/\1/p' junit-report.xml | head -1)
+            failures=$(sed -n 's/.*failures="\([0-9]*\)".*/\1/p' junit-report.xml | head -1)
+            passed=$((tests - failures))
+            echo "- **Total Tests:** $tests" >> $GITHUB_STEP_SUMMARY
+            echo "- **Passed:** ✅ $passed" >> $GITHUB_STEP_SUMMARY
+            if [ "$failures" -gt 0 ]; then
+              echo "- **Failed:** ❌ $failures" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "⚠️ No test results found" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Check test outcome
+        if: always()
+        run: |
+          if [ "${{ steps.maestro-tests.outcome }}" = "failure" ]; then
+            echo "::error::Maestro tests failed. See Test Results Summary above."
+            exit 1
+          fi
