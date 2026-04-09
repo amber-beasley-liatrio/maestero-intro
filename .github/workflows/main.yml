@@ -10,6 +10,8 @@ jobs:
     name: Run Maestro Tests on iOS
     runs-on: macos-15
     timeout-minutes: 30
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     
     steps:
       - name: Checkout code
