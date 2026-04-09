@@ -22,7 +22,7 @@
 
 ## Tasks
 
-### [~] 1.0 Implement CocoaPods Dependency Caching
+### [x] 1.0 Implement CocoaPods Dependency Caching
 
 **Purpose:** Add GitHub Actions caching for CocoaPods dependencies to eliminate redundant pod installation on subsequent workflow runs, targeting 1-2 minute time savings per run.
 
@@ -39,9 +39,9 @@
 - [x] 1.1 Add CocoaPods cache restore step in `.github/workflows/main.yml` before pod installation using `actions/cache@v4` with cache key based on `${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}`
 - [x] 1.2 Add CocoaPods cache restore step in `.github/workflows/pr.yml` with matching configuration
 - [x] 1.3 Modify pod installation step to skip when cache is restored (check cache hit output and conditionally run `pod install`)
-- [~] 1.4 Commit and push changes to trigger first workflow run (cache miss expected - establishes baseline)
-- [ ] 1.5 Trigger second workflow run without changing Podfile.lock (cache hit expected)
-- [ ] 1.6 Verify cache effectiveness in workflow logs showing "Cache restored" message and skipped pod installation
+- [x] 1.4 Commit and push changes to trigger first workflow run (cache miss expected - establishes baseline)
+- [x] 1.5 Trigger second workflow run without changing Podfile.lock (cache hit expected)
+- [x] 1.6 Verify cache effectiveness in workflow logs showing "Cache restored" message and skipped pod installation
 
 ---
 
