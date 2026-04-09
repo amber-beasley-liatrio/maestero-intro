@@ -45,7 +45,7 @@
 
 ---
 
-### [ ] 2.0 Reduce Build Output Verbosity
+### [~] 2.0 Reduce Build Output Verbosity
 
 **Purpose:** Minimize excessive xcodebuild output by using specific simulator UDID targeting and reducing Metro bundler wait time, improving log readability and reducing I/O overhead.
 
@@ -59,13 +59,13 @@
 
 #### 2.0 Tasks
 
-- [ ] 2.1 Add simulator UDID selection step in `.github/workflows/main.yml` using `xcrun simctl list devices available --json` to find iPhone 16 simulator
-- [ ] 2.2 Extract UDID from JSON output and set as environment variable for subsequent steps
-- [ ] 2.3 Update `react-native run-ios` command to use `--udid=$SIMULATOR_UDID` instead of `--simulator="iPhone 16"` in main.yml
-- [ ] 2.4 Add matching simulator UDID selection and extraction logic to `.github/workflows/pr.yml`
-- [ ] 2.5 Update `react-native run-ios` command in pr.yml to use `--udid` flag
-- [ ] 2.6 Reduce Metro bundler startup sleep from 10 seconds to 5 seconds in both workflows
-- [ ] 2.7 Commit and push changes to trigger workflow run
+- [x] 2.1 Add simulator UDID selection step in `.github/workflows/main.yml` using `xcrun simctl list devices available --json` to find iPhone 16 simulator
+- [x] 2.2 Extract UDID from JSON output and set as environment variable for subsequent steps
+- [x] 2.3 Update `react-native run-ios` command to use `--udid=$SIMULATOR_UDID` instead of `--simulator="iPhone 16"` in main.yml
+- [x] 2.4 Add matching simulator UDID selection and extraction logic to `.github/workflows/pr.yml`
+- [x] 2.5 Update `react-native run-ios` command in pr.yml to use `--udid` flag
+- [x] 2.6 Reduce Metro bundler startup sleep from 10 seconds to 5 seconds in both workflows
+- [~] 2.7 Commit and push changes to trigger workflow run
 - [ ] 2.8 Verify workflow logs show minimal simulator output (no 100+ line simulator list) and build succeeds
 
 ---
