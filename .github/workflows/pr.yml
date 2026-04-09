@@ -41,14 +41,6 @@ jobs:
           curl -Ls "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
       
-      - name: Verify Maestro installation
-        run: |
-          export PATH="$HOME/.maestro/bin:$PATH"
-          maestro --version
-      
-      - name: List available simulators
-        run: xcrun simctl list devices available
-      
       - name: Start Metro bundler
         run: |
           npx react-native start &
@@ -64,16 +56,13 @@ jobs:
         run: |
           export PATH="$HOME/.maestro/bin:$PATH"
           maestro test --format JUNIT --output junit-report.xml .maestro/
-          maestro test --format HTML-DETAILED --output test-report.html .maestro/
       
       - name: Upload Maestro test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: maestro-test-results-${{ github.sha }}
-          path: |
-            junit-report.xml
-            test-report.html
+          path: junit-report.xml
           retention-days: 14
           if-no-files-found: warn
       
