@@ -45,7 +45,7 @@
 
 ---
 
-### [~] 2.0 Reduce Build Output Verbosity
+### [x] 2.0 Reduce Build Output Verbosity
 
 **Purpose:** Minimize excessive xcodebuild output by using specific simulator UDID targeting and reducing Metro bundler wait time, improving log readability and reducing I/O overhead.
 
@@ -65,8 +65,8 @@
 - [x] 2.4 Add matching simulator UDID selection and extraction logic to `.github/workflows/pr.yml`
 - [x] 2.5 Update `react-native run-ios` command in pr.yml to use `--udid` flag
 - [x] 2.6 Reduce Metro bundler startup sleep from 10 seconds to 5 seconds in both workflows
-- [~] 2.7 Commit and push changes to trigger workflow run
-- [ ] 2.8 Verify workflow logs show minimal simulator output (no 100+ line simulator list) and build succeeds
+- [x] 2.7 Commit and push changes to trigger workflow run
+- [x] 2.8 Verify workflow logs show minimal simulator output (no 100+ line simulator list) and build succeeds
 
 ---
 
