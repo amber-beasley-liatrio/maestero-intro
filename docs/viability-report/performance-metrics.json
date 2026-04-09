@@ -1,0 +1,88 @@
+{
+  "repository_type": "public",
+  "repository_name": "amber-beasley-liatrio/maestero-intro",
+  "note": "Public repositories get FREE unlimited GitHub Actions minutes for standard runners. All costs shown are for private repository reference only.",
+  "summary": {
+    "total_runs": 3,
+    "successful_runs": 3,
+    "failed_runs": 0,
+    "average_duration_minutes": 13.82,
+    "min_duration_minutes": 9.77,
+    "max_duration_minutes": 19.47,
+    "total_duration_minutes": 41.47,
+    "meets_15min_threshold": true,
+    "actual_cost_public_repo": {
+      "total_cost_usd": 0.00,
+      "cost_per_run_usd": 0.00,
+      "note": "FREE - Public repositories have unlimited GitHub Actions minutes"
+    },
+    "hypothetical_cost_if_private": {
+      "macos_runner_rate_per_minute": 0.062,
+      "total_minutes_consumed": 41.47,
+      "total_cost_usd": 2.57,
+      "cost_per_run_usd": 0.86,
+      "meets_cost_threshold": false,
+      "cost_threshold_usd": 0.50,
+      "note": "This cost would apply only if repository were private. Actual cost for this public repo is $0.00."
+    }
+  },
+  "runs": [
+    {
+      "run_id": 24200382864,
+      "title": "chore: add test report files to .gitignore",
+      "conclusion": "success",
+      "created_at": "2026-04-09T16:05:49Z",
+      "updated_at": "2026-04-09T16:25:17Z",
+      "duration_minutes": 19.47,
+      "actual_cost_usd": 0.00,
+      "hypothetical_cost_if_private_usd": 1.21,
+      "jobs": [
+        {
+          "name": "Run Maestro Tests on iOS",
+          "conclusion": "success",
+          "started_at": "2026-04-09T16:05:54Z",
+          "completed_at": "2026-04-09T16:25:17Z",
+          "duration_minutes": 19.38
+        }
+      ]
+    },
+    {
+      "run_id": 24198950264,
+      "title": "fix: opt into Node.js 24 for GitHub Actions",
+      "conclusion": "success",
+      "created_at": "2026-04-09T15:35:46Z",
+      "updated_at": "2026-04-09T15:48:00Z",
+      "duration_minutes": 12.23,
+      "actual_cost_usd": 0.00,
+      "hypothetical_cost_if_private_usd": 0.76,
+      "jobs": [
+        {
+          "name": "Run Maestro Tests on iOS",
+          "conclusion": "success",
+          "started_at": "2026-04-09T15:35:52Z",
+          "completed_at": "2026-04-09T15:47:58Z",
+          "duration_minutes": 12.10
+        }
+      ]
+    },
+    {
+      "run_id": 24197963092,
+      "title": "perf(spec-01): optimize workflow execution time",
+      "conclusion": "success",
+      "created_at": "2026-04-09T15:15:13Z",
+      "updated_at": "2026-04-09T15:24:59Z",
+      "duration_minutes": 9.77,
+      "actual_cost_usd": 0.00,
+      "hypothetical_cost_if_private_usd": 0.61,
+      "jobs": [
+        {
+          "name": "Run Maestro Tests on iOS",
+          "conclusion": "success",
+          "started_at": "2026-04-09T15:15:17Z",
+          "completed_at": "2026-04-09T15:24:58Z",
+          "duration_minutes": 9.68
+        }
+      ]
+    }
+  ]
+}
