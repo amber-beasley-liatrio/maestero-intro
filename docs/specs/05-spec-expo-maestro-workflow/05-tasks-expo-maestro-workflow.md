@@ -2,11 +2,30 @@
 
 ## Relevant Files
 
-TBD
+| File | Why It Is Relevant |
+| --- | --- |
+| `.env.example` | NEW example environment file showing required Expo environment variables for prebuild |
+| `.maestro/` | Existing Maestro test directory (may need updates for Expo bundle ID variable) |
+| `.github/workflows/maestro-test-ios-expo-reusable.yml` | NEW Expo-compatible reusable workflow with pnpm, prebuild, and dual caching |
+| `.github/workflows/maestro-test-ios-reusable.yml` | REFERENCE existing React Native CLI reusable workflow for structural patterns |
+| `.github/workflows/maestro-expo-ios-tests.yml` | NEW caller workflow for manual Expo iOS testing |
+| `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-01-proofs.md` | NEW proof documentation for Task 1.0 local validation |
+| `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-02-proofs.md` | NEW proof documentation for Task 2.0 reusable workflow |
+| `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-03-proofs.md` | NEW proof documentation for Task 3.0 caller workflow and CI testing |
+| `package.json` | Will document Expo dependencies needed (expo, expo-dev-client) in proof docs |
+| `app.config.ts` or `app.json` | Will reference Expo configuration requirements in proof docs |
 
 ### Notes
 
-TBD
+- This implementation creates a NEW separate Expo workflow alongside the existing React Native CLI workflow
+- pnpm must be installed globally (`npm install -g pnpm@9`) or via corepack for local validation
+- Expo SDK dependencies (expo, expo-dev-client) may need to be installed for local validation testing
+- The `.env` file is created dynamically in workflows and never committed to the repository
+- Follow 2-space YAML indentation and clear step naming conventions from existing workflows
+- Use conventional commits format: `feat(ci):`, `test(expo):`, `docs(spec-05):` prefixes
+- Proof documentation follows Spec 01/02/03 patterns with command output, file structure, and workflow evidence
+- GitHub Actions secrets must be configured in repository settings for CI testing
+- Local validation (Task 1.0) establishes confidence before CI implementation (Tasks 2.0-3.0)
 
 ## Tasks
 
@@ -27,7 +46,20 @@ TBD
 
 #### 1.0 Tasks
 
-TBD
+- [ ] 1.1 Install pnpm globally if not present (`npm install -g pnpm@9` or enable corepack)
+- [ ] 1.2 Install root dependencies with `pnpm install --frozen-lockfile`
+- [ ] 1.3 Install Expo dependencies if needed: `pnpm add expo@~52.0.0 expo-dev-client@~5.0.0`
+- [ ] 1.4 Create `.env` file with `BUNDLE_IDENTIFIER` variable (e.g., `com.maestrotestapp.dev`)
+- [ ] 1.5 Generate native iOS project with `pnpm exec expo prebuild --platform ios --clean`
+- [ ] 1.6 Verify `ios/` directory and `Podfile` exist
+- [ ] 1.7 Install CocoaPods dependencies with `cd ios && pod install && cd ..`
+- [ ] 1.8 Start Metro bundler in background: `pnpm exec expo start --dev-client --clear --port 8081` (detached terminal)
+- [ ] 1.9 Extract iOS simulator UDID: `xcrun simctl list devices available | grep "iPhone 16" | head -n 1`
+- [ ] 1.10 Build and deploy iOS app: `pnpm exec expo run:ios --device "iPhone 16" --no-bundler`
+- [ ] 1.11 Run Maestro tests: `maestro test .maestro/ --format junit --output junit-report.xml`
+- [ ] 1.12 Verify `junit-report.xml` contains test results
+- [ ] 1.13 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-01-proofs.md`
+- [ ] 1.14 Commit proof documentation: `git commit -m "docs(spec-05): add Task 1.0 local validation proofs"`
 
 ---
 
@@ -50,7 +82,31 @@ TBD
 
 #### 2.0 Tasks
 
-TBD
+- [ ] 2.1 Create `.github/workflows/maestro-test-ios-expo-reusable.yml` with basic structure
+- [ ] 2.2 Add `workflow_call` trigger with 5 inputs (`working-directory`, `simulator-device`, `timeout-minutes`, `test-path`, `artifact-name-prefix`)
+- [ ] 2.3 Add `secrets` section with `bundle-id` (required: true)
+- [ ] 2.4 Add job with `timeout-minutes: ${{ inputs.timeout-minutes }}` and `macos-14` runner
+- [ ] 2.5 Add step: Checkout repository
+- [ ] 2.6 Add step: Setup pnpm with `pnpm/action-setup@v4` (version: 9)
+- [ ] 2.7 Add step: Setup Node.js with `actions/setup-node@v4` (node-version: 22.x, cache: 'pnpm', cache-dependency-path: `${{ inputs.working-directory }}/pnpm-lock.yaml`)
+- [ ] 2.8 Add step: Setup Java with `actions/setup-java@v4` (java-version: 17, distribution: 'temurin')
+- [ ] 2.9 Add step: Cache Expo prebuild outputs (key: `expo-prebuild-${{ hashFiles(format('{0}/app.config.ts', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}`, path: `${{ inputs.working-directory }}/ios/`, `${{ inputs.working-directory }}/android/`)
+- [ ] 2.10 Add step: Create `.env` file with `EXPO_PUBLIC_BUNDLE_ID_DEBUG=${{ secrets.bundle-id }}` (working-directory: `${{ inputs.working-directory }}`)
+- [ ] 2.11 Add step: Install dependencies with `pnpm install --frozen-lockfile` (working-directory: `${{ inputs.working-directory }}`)
+- [ ] 2.12 Add step: Run Expo prebuild with `pnpm exec expo prebuild --platform ios --clean` (working-directory: `${{ inputs.working-directory }}`)
+- [ ] 2.13 Add step: Cache CocoaPods dependencies (key: `cocoapods-${{ hashFiles(format('{0}/ios/Podfile.lock', inputs.working-directory)) }}`, path: `${{ inputs.working-directory }}/ios/Pods`)
+- [ ] 2.14 Add step: Install CocoaPods dependencies with `pod install` (working-directory: `${{ inputs.working-directory }}/ios`)
+- [ ] 2.15 Add step: Install Maestro CLI with `curl -Ls https://get.maestro.mobile.dev | bash` and add to PATH
+- [ ] 2.16 Add step: Start Metro bundler in background with `pnpm exec expo start --dev-client --clear --port 8081 &` (working-directory: `${{ inputs.working-directory }}`)
+- [ ] 2.17 Add step: Extract iOS simulator UDID with `xcrun simctl list devices available` and save to `GITHUB_ENV`
+- [ ] 2.18 Add step: Build iOS app with `pnpm exec expo run:ios --device "$SIMULATOR_UDID" --no-bundler` (working-directory: `${{ inputs.working-directory }}`, env: `APP_BUNDLE_ID: ${{ secrets.bundle-id }}`)
+- [ ] 2.19 Add step: Run Maestro tests with `maestro test ${{ inputs.test-path }} --format junit --output junit-report.xml` (working-directory: `${{ inputs.working-directory }}`, env: `APP_BUNDLE_ID: ${{ secrets.bundle-id }}`)
+- [ ] 2.20 Add step: Upload Maestro test results with `actions/upload-artifact@v4` (if: always(), name: `${{ inputs.artifact-name-prefix }}-${{ github.run_id }}`)
+- [ ] 2.21 Add step: Generate test summary from JUnit XML (if: always())
+- [ ] 2.22 Add step: Check test outcome and fail job if tests failed (if: always())
+- [ ] 2.23 Commit workflow file: `git commit -m "feat(ci): add Expo-compatible reusable Maestro iOS workflow with dual caching"`
+- [ ] 2.24 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-02-proofs.md`
+- [ ] 2.25 Commit proof documentation: `git commit -m "docs(spec-05): add Task 2.0 reusable workflow proofs"`
 
 ---
 
@@ -73,3 +129,24 @@ TBD
 - Workflow logs: Maestro test execution with 3/3 passing demonstrates tests run successfully with bundle ID
 - Artifacts: `maestro-expo-test-results-<sha>` uploaded demonstrates artifact naming works
 - Workflow duration: Completes in < 40 minutes demonstrates timeout configuration appropriate
+
+#### 3.0 Tasks
+
+- [ ] 3.1 Create `.github/workflows/maestro-expo-ios-tests.yml` with basic structure
+- [ ] 3.2 Add `workflow_dispatch` trigger (manual-only, no push/pull_request)
+- [ ] 3.3 Add job with `uses: ./.github/workflows/maestro-test-ios-expo-reusable.yml` reference
+- [ ] 3.4 Add `with:` block with 5 inputs: `working-directory: '.'`, `simulator-device: 'iPhone 16'`, `timeout-minutes: 40`, `test-path: '.maestro/'`, `artifact-name-prefix: 'maestro-expo-test-results'`
+- [ ] 3.5 Add `secrets:` block with `bundle-id: ${{ secrets.EXPO_PUBLIC_BUNDLE_ID_DEBUG }}`
+- [ ] 3.6 Commit caller workflow: `git commit -m "feat(ci): add Expo Maestro iOS caller workflow for manual testing"`
+- [ ] 3.7 Configure GitHub repository secret `EXPO_PUBLIC_BUNDLE_ID_DEBUG` with appropriate bundle ID value (e.g., `com.maestrotestapp.dev`)
+- [ ] 3.8 Push branch to GitHub remote
+- [ ] 3.9 Navigate to Actions tab and manually trigger "Expo Maestro iOS Tests" workflow
+- [ ] 3.10 Monitor workflow execution and verify all steps complete successfully
+- [ ] 3.11 Verify pnpm setup logs show correct version and cache configuration
+- [ ] 3.12 Verify Expo prebuild step completes and generates `ios/` directory logs
+- [ ] 3.13 Verify both cache steps (prebuild outputs + CocoaPods) show restore or save actions
+- [ ] 3.14 Verify Maestro test step shows 3/3 passing tests with bundle ID variable accessible
+- [ ] 3.15 Verify test results artifact uploaded with correct name pattern
+- [ ] 3.16 Verify workflow duration < 40 minutes
+- [ ] 3.17 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-03-proofs.md`
+- [ ] 3.18 Commit proof documentation: `git commit -m "docs(spec-05): add Task 3.0 caller workflow and CI testing proofs"`
