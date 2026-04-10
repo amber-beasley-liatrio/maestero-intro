@@ -1,0 +1,129 @@
+name: Reusable Maestro iOS Test Workflow
+
+on:
+  workflow_call:
+    inputs:
+      simulator-device:
+        description: 'iOS simulator device to use for testing'
+        required: false
+        type: string
+        default: 'iPhone 16'
+      timeout-minutes:
+        description: 'Job timeout duration in minutes'
+        required: false
+        type: number
+        default: 30
+      test-path:
+        description: 'Path to Maestro test files'
+        required: false
+        type: string
+        default: '.maestro/'
+      artifact-name-prefix:
+        description: 'Prefix for test result artifact name'
+        required: false
+        type: string
+        default: 'maestro-test-results'
+
+jobs:
+  test-ios:
+    name: Run Maestro Tests on iOS
+    runs-on: macos-15
+    timeout-minutes: ${{ inputs.timeout-minutes }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Setup Java 17 (Maestro prerequisite)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: Install npm dependencies
+        run: npm install
+      
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        id: pods-cache
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          pod install --silent
+          cd ..
+      
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+      
+      - name: Start Metro bundler
+        run: |
+          npx react-native start &
+          sleep 5
+      
+      - name: Get simulator UDID
+        id: sim-udid
+        run: |
+          UDID=$(xcrun simctl list devices available --json | jq -r '.devices | to_entries[] | .value[] | select(.name == "${{ inputs.simulator-device }}") | .udid' | head -1)
+          echo "SIMULATOR_UDID=$UDID" >> $GITHUB_ENV
+          echo "Found ${{ inputs.simulator-device }} UDID: $UDID"
+      
+      - name: Build and install iOS app
+        run: |
+          npx react-native run-ios --udid=$SIMULATOR_UDID
+      
+      - name: Run Maestro tests
+        id: maestro-tests
+        continue-on-error: true
+        run: |
+          export PATH="$HOME/.maestro/bin:$PATH"
+          maestro test --format JUNIT --output junit-report.xml ${{ inputs.test-path }}
+      
+      - name: Upload Maestro test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name-prefix }}-${{ github.sha }}
+          path: junit-report.xml
+          retention-days: 14
+          if-no-files-found: warn
+      
+      - name: Test results summary
+        if: always()
+        run: |
+          echo "## 📱 Maestro iOS Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "junit-report.xml" ]; then
+            # Parse JUnit XML for summary (macOS-compatible)
+            tests=$(sed -n 's/.*tests="\([0-9]*\)".*/\1/p' junit-report.xml | head -1)
+            failures=$(sed -n 's/.*failures="\([0-9]*\)".*/\1/p' junit-report.xml | head -1)
+            passed=$((tests - failures))
+            echo "- **Total Tests:** $tests" >> $GITHUB_STEP_SUMMARY
+            echo "- **Passed:** ✅ $passed" >> $GITHUB_STEP_SUMMARY
+            if [ "$failures" -gt 0 ]; then
+              echo "- **Failed:** ❌ $failures" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "⚠️ No test results found" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Check test outcome
+        if: always()
+        run: |
+          if [ "${{ steps.maestro-tests.outcome }}" = "failure" ]; then
+            echo "::error::Maestro tests failed. See Test Results Summary above."
+            exit 1
+          fi
