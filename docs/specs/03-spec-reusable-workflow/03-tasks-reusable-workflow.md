@@ -84,7 +84,7 @@
 
 ---
 
-### [ ] 3.0 Refactor PR Workflow to Manual Trigger Caller
+### [~] 3.0 Refactor PR Workflow to Manual Trigger Caller
 
 **Purpose:** Convert pr.yml from a 120-line standalone workflow to a minimal ~15-line caller that only triggers manually via workflow_dispatch and invokes the reusable workflow, eliminating automatic execution on pull request events.
 
@@ -99,12 +99,12 @@
 
 #### 3.0 Tasks
 
-- [ ] 3.1 Replace entire contents of `.github/workflows/pr.yml` with minimal caller structure (name, workflow_dispatch trigger, single job)
-- [ ] 3.2 Set workflow name to "Maestro iOS Tests - PR" and trigger to `on: workflow_dispatch` only (remove `pull_request` trigger)
-- [ ] 3.3 Add job named `test-ios` with `uses: ./.github/workflows/maestro-test-ios-reusable.yml`
-- [ ] 3.4 Add `with:` block passing input values: `simulator-device: "iPhone 16"`, `timeout-minutes: 30`, `test-path: ".maestro/"`, `artifact-name-prefix: "maestro-test-results-pr"`
-- [ ] 3.5 Verify file is reduced to ~15 lines total
-- [ ] 3.6 Commit changes with message "refactor(spec-03): convert pr.yml to manual-trigger caller of reusable workflow"
+- [x] 3.1 Replace entire contents of `.github/workflows/pr.yml` with minimal caller structure (name, workflow_dispatch trigger, single job)
+- [x] 3.2 Set workflow name to "Maestro iOS Tests - PR" and trigger to `on: workflow_dispatch` only (remove `pull_request` trigger)
+- [x] 3.3 Add job named `test-ios` with `uses: ./.github/workflows/maestro-test-ios-reusable.yml`
+- [x] 3.4 Add `with:` block passing input values: `simulator-device: "iPhone 16"`, `timeout-minutes: 30`, `test-path: ".maestro/"`, `artifact-name-prefix: "maestro-test-results-pr"`
+- [x] 3.5 Verify file is reduced to ~15 lines total
+- [x] 3.6 Commit changes with message "refactor(spec-03): convert pr.yml to manual-trigger caller of reusable workflow"
 - [ ] 3.7 Create a test PR or push to existing PR and verify NO automatic workflow run is triggered
 - [ ] 3.8 Manually trigger "Maestro iOS Tests - PR" workflow from GitHub Actions UI and verify it executes using reusable workflow
 - [ ] 3.9 Verify workflow logs show cache hit, UDID targeting, and 3/3 tests passing (functional equivalence to pre-refactoring behavior)
