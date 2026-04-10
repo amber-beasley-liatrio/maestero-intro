@@ -56,7 +56,7 @@
 
 ---
 
-### [~] 2.0 Refactor Main Workflow to Manual Trigger Caller
+### [x] 2.0 Refactor Main Workflow to Manual Trigger Caller
 
 **Purpose:** Convert main.yml from a 120-line standalone workflow to a minimal ~15-line caller that only triggers manually via workflow_dispatch and invokes the reusable workflow, eliminating automatic execution on main branch pushes.
 
@@ -76,11 +76,11 @@
 - [x] 2.3 Add job named `test-ios` with `uses: ./.github/workflows/maestro-test-ios-reusable.yml`
 - [x] 2.4 Add `with:` block passing input values: `simulator-device: "iPhone 16"`, `timeout-minutes: 30`, `test-path: ".maestro/"`, `artifact-name-prefix: "maestro-test-results-main"`
 - [x] 2.5 Verify file is reduced to ~15 lines total
-- [ ] 2.6 Commit changes with message "refactor(spec-03): convert main.yml to manual-trigger caller of reusable workflow"
-- [ ] 2.7 Push commit to main branch and verify NO automatic workflow run is triggered
-- [ ] 2.8 Manually trigger "Maestro iOS Tests - Main" workflow from GitHub Actions UI and verify it executes using reusable workflow
-- [ ] 2.9 Verify workflow logs show cache hit, UDID targeting, and 3/3 tests passing (functional equivalence)
-- [ ] 2.10 Create `docs/specs/03-spec-reusable-workflow/03-task-02-proofs.md` with before/after file comparison, workflow run screenshot, and manual trigger verification
+- [x] 2.6 Commit changes with message "refactor(spec-03): convert main.yml to manual-trigger caller of reusable workflow"
+- [x] 2.7 Push commit to main branch and verify NO automatic workflow run is triggered
+- [x] 2.8 Manually trigger "Maestro iOS Tests - Main" workflow from GitHub Actions UI and verify it executes using reusable workflow
+- [x] 2.9 Verify workflow logs show cache hit, UDID targeting, and 3/3 tests passing (functional equivalence)
+- [x] 2.10 Create `docs/specs/03-spec-reusable-workflow/03-task-02-proofs.md` with before/after file comparison, workflow run screenshot, and manual trigger verification
 
 ---
 
