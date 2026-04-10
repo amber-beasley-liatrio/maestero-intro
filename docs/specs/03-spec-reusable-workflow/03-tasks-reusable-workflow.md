@@ -22,7 +22,7 @@
 
 ## Tasks
 
-### [~] 1.0 Create Reusable Workflow with Configurable Inputs
+### [x] 1.0 Create Reusable Workflow with Configurable Inputs
 
 **Purpose:** Define a reusable workflow at `.github/workflows/maestro-test-ios-reusable.yml` that accepts typed inputs for configurability while preserving all Spec 02 optimizations (CocoaPods caching, UDID targeting, Metro wait reduction, pod install --silent), serving as the single source of truth for Maestro iOS test execution.
 
@@ -51,8 +51,8 @@
 - [x] 1.12 Add test artifact upload step with name `${{ inputs.artifact-name-prefix }}-${{ github.sha }}`, path junit-report.xml, if: always()
 - [x] 1.13 Add test results summary step (copy sed parsing logic from existing main.yml), if: always()
 - [x] 1.14 Add test outcome check step (copy from existing main.yml), if: always()
-- [ ] 1.15 Commit changes with message "refactor(spec-03): create reusable Maestro test workflow with configurable inputs"
-- [ ] 1.16 Create `docs/specs/03-spec-reusable-workflow/03-task-01-proofs.md` documenting file creation, YAML structure verification, and input configuration
+- [x] 1.15 Commit changes with message "refactor(spec-03): create reusable Maestro test workflow with configurable inputs"
+- [x] 1.16 Create `docs/specs/03-spec-reusable-workflow/03-task-01-proofs.md` documenting file creation, YAML structure verification, and input configuration
 
 ---
 
