@@ -131,6 +131,7 @@ jobs:
         continue-on-error: true
         env:
           APP_BUNDLE_ID: ${{ secrets.bundle-id }}
+          MAESTRO_CLI_NO_ANALYTICS: 'true'
         run: |
           export PATH="$HOME/.maestro/bin:$PATH"
           maestro test ${{ inputs.test-path }} --format junit --output junit-report.xml
