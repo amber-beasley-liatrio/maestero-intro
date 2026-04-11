@@ -29,7 +29,7 @@
 
 ## Tasks
 
-### [~] 1.0 Local Expo Workflow Validation
+### [x] 1.0 Local Expo Workflow Validation
 
 **Purpose:** Validate that Expo prebuild, pnpm dependencies, Metro bundler, and Maestro tests execute successfully in a local environment before implementing GitHub Actions workflow, establishing confidence in the Expo approach and identifying any compatibility issues early.
 
@@ -59,7 +59,7 @@
 - [x] 1.11 Run Maestro tests: `maestro test .maestro/ --format junit --output junit-report.xml`
 - [x] 1.12 Verify `junit-report.xml` contains test results
 - [x] 1.13 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-01-proofs.md`
-- [~] 1.14 Commit proof documentation: `git commit -m "docs(spec-05): add Task 1.0 local validation proofs"`
+- [x] 1.14 Commit proof documentation: `git commit -m "docs(spec-05): add Task 1.0 local validation proofs"`
 
 ---
 
