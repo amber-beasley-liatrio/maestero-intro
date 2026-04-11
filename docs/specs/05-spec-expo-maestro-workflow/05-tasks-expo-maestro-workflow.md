@@ -29,7 +29,7 @@
 
 ## Tasks
 
-### [ ] 1.0 Local Expo Workflow Validation
+### [~] 1.0 Local Expo Workflow Validation
 
 **Purpose:** Validate that Expo prebuild, pnpm dependencies, Metro bundler, and Maestro tests execute successfully in a local environment before implementing GitHub Actions workflow, establishing confidence in the Expo approach and identifying any compatibility issues early.
 
@@ -46,20 +46,20 @@
 
 #### 1.0 Tasks
 
-- [ ] 1.1 Install pnpm globally if not present (`npm install -g pnpm@9` or enable corepack)
-- [ ] 1.2 Install root dependencies with `pnpm install --frozen-lockfile`
-- [ ] 1.3 Install Expo dependencies if needed: `pnpm add expo@~52.0.0 expo-dev-client@~5.0.0`
-- [ ] 1.4 Create `.env` file with `BUNDLE_IDENTIFIER` variable (e.g., `com.maestrotestapp.dev`)
-- [ ] 1.5 Generate native iOS project with `pnpm exec expo prebuild --platform ios --clean`
-- [ ] 1.6 Verify `ios/` directory and `Podfile` exist
-- [ ] 1.7 Install CocoaPods dependencies with `cd ios && pod install && cd ..`
-- [ ] 1.8 Start Metro bundler in background: `pnpm exec expo start --dev-client --clear --port 8081` (detached terminal)
-- [ ] 1.9 Extract iOS simulator UDID: `xcrun simctl list devices available | grep "iPhone 16" | head -n 1`
-- [ ] 1.10 Build and deploy iOS app: `pnpm exec expo run:ios --device "iPhone 16" --no-bundler`
-- [ ] 1.11 Run Maestro tests: `maestro test .maestro/ --format junit --output junit-report.xml`
-- [ ] 1.12 Verify `junit-report.xml` contains test results
-- [ ] 1.13 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-01-proofs.md`
-- [ ] 1.14 Commit proof documentation: `git commit -m "docs(spec-05): add Task 1.0 local validation proofs"`
+- [x] 1.1 Install pnpm globally if not present (`npm install -g pnpm@9` or enable corepack)
+- [x] 1.2 Install root dependencies with `pnpm install --frozen-lockfile`
+- [x] 1.3 Install Expo dependencies if needed: `pnpm add expo@~52.0.0 expo-dev-client@~5.0.0`
+- [x] 1.4 Create `.env` file with `BUNDLE_IDENTIFIER` variable (e.g., `com.maestrotestapp.dev`)
+- [x] 1.5 Generate native iOS project with `pnpm exec expo prebuild --platform ios --clean`
+- [x] 1.6 Verify `ios/` directory and `Podfile` exist
+- [x] 1.7 Install CocoaPods dependencies with `cd ios && pod install && cd ..`
+- [x] 1.8 Start Metro bundler in background: `pnpm exec expo start --dev-client --clear --port 8081` (detached terminal)
+- [x] 1.9 Extract iOS simulator UDID: `xcrun simctl list devices available | grep "iPhone 16" | head -n 1`
+- [x] 1.10 Build and deploy iOS app: `pnpm exec expo run:ios --device "iPhone 16" --no-bundler`
+- [x] 1.11 Run Maestro tests: `maestro test .maestro/ --format junit --output junit-report.xml`
+- [x] 1.12 Verify `junit-report.xml` contains test results
+- [x] 1.13 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-01-proofs.md`
+- [~] 1.14 Commit proof documentation: `git commit -m "docs(spec-05): add Task 1.0 local validation proofs"`
 
 ---
 
