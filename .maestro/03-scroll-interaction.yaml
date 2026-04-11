@@ -1,6 +1,9 @@
-appId: org.reactjs.native.example.MaestroTestApp
+appId: ${APP_BUNDLE_ID}
 ---
 - launchApp
+- extendedWaitUntil:
+    visible: "Welcome to React Native"
+    timeout: 30000
 - assertVisible: "Step One"
 - assertVisible: "Welcome to React Native"
 - scroll
