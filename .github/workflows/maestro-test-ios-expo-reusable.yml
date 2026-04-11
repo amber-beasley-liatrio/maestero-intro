@@ -36,7 +36,7 @@ on:
 jobs:
   test-expo-ios:
     name: Run Maestro Tests on Expo iOS
-    runs-on: macos-14
+    runs-on: macos-15
     timeout-minutes: ${{ inputs.timeout-minutes }}
     
     steps:
