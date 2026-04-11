@@ -104,15 +104,15 @@
 - [x] 2.20 Add step: Upload Maestro test results with `actions/upload-artifact@v4` (if: always(), name: `${{ inputs.artifact-name-prefix }}-${{ github.run_id }}`)
 - [x] 2.21 Add step: Generate test summary from JUnit XML (if: always())
 - [x] 2.22 Add step: Check test outcome and fail job if tests failed (if: always())
-- [~] 2.23 Commit workflow file: `git commit -m "feat(ci): add Expo-compatible reusable Maestro iOS workflow with dual caching"`
+- [x] 2.23 Commit workflow file: `git commit -m "feat(ci): add Expo-compatible reusable Maestro iOS workflow with dual caching"`
 - [x] 2.24 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-02-proofs.md`
-- [~] 2.25 Commit proof documentation: `git commit -m "docs(spec-05): add Task 2.0 reusable workflow proofs"`
+- [x] 2.25 Commit proof documentation: `git commit -m "docs(spec-05): add Task 2.0 reusable workflow proofs"`
 
 ---
 
-### [ ] 3.0 Caller Workflow Creation and GitHub Actions Testing
+### [x] 2.0 Expo Reusable Workflow Implementation
 
-**Purpose:** Create minimal caller workflow (`.github/workflows/maestro-expo-ios-tests.yml`) that invokes the Expo reusable workflow with appropriate inputs and secrets, then validate via manual trigger that the complete workflow executes successfully on GitHub Actions, demonstrating end-to-end integration.
+**Purpose:** Create `.github/workflows/maestro-test-ios-expo-reusable.yml` with workflow_call trigger, 6 inputs (5 regular + 1 secret), pnpm setup, Expo prebuild, dual caching strategy (prebuild outputs + CocoaPods), and all test execution steps, establishing the core CI automation for Expo projects.
 
 #### 3.0 Proof Artifact(s)
 
