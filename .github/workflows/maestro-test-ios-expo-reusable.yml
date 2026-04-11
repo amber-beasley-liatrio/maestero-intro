@@ -1,0 +1,174 @@
+name: Reusable Maestro Expo iOS Test Workflow
+
+on:
+  workflow_call:
+    inputs:
+      working-directory:
+        description: 'Working directory for monorepo support'
+        required: false
+        type: string
+        default: '.'
+      simulator-device:
+        description: 'iOS simulator device to use for testing'
+        required: false
+        type: string
+        default: 'iPhone 16'
+      timeout-minutes:
+        description: 'Job timeout duration in minutes'
+        required: false
+        type: number
+        default: 40
+      test-path:
+        description: 'Path to Maestro test files'
+        required: false
+        type: string
+        default: '.maestro/'
+      artifact-name-prefix:
+        description: 'Prefix for test result artifact name'
+        required: false
+        type: string
+        default: 'maestro-expo-test-results'
+    secrets:
+      bundle-id:
+        description: 'iOS bundle identifier for the app'
+        required: true
+
+jobs:
+  test-expo-ios:
+    name: Run Maestro Tests on Expo iOS
+    runs-on: macos-14
+    timeout-minutes: ${{ inputs.timeout-minutes }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+          cache-dependency-path: ${{ inputs.working-directory }}/pnpm-lock.yaml
+      
+      - name: Setup Java 17 (Maestro prerequisite)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: Cache Expo prebuild outputs
+        uses: actions/cache@v4
+        id: prebuild-cache
+        with:
+          path: |
+            ${{ inputs.working-directory }}/ios/
+            ${{ inputs.working-directory }}/android/
+          key: ${{ runner.os }}-expo-prebuild-${{ hashFiles(format('{0}/app.json', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}
+          restore-keys: |
+            ${{ runner.os }}-expo-prebuild-
+      
+      - name: Create .env file
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          echo "EXPO_PUBLIC_BUNDLE_ID_DEBUG=${{ secrets.bundle-id }}" > .env
+          echo "✅ Environment file created with bundle ID"
+      
+      - name: Install pnpm dependencies
+        working-directory: ${{ inputs.working-directory }}
+        run: pnpm install --frozen-lockfile
+      
+      - name: Generate native iOS project (Expo prebuild)
+        working-directory: ${{ inputs.working-directory }}
+        run: pnpm exec expo prebuild --platform ios --clean
+      
+      - name: Cache CocoaPods dependencies
+        uses: actions/cache@v4
+        id: pods-cache
+        with:
+          path: ${{ inputs.working-directory }}/ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles(format('{0}/ios/Podfile.lock', inputs.working-directory)) }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      
+      - name: Install CocoaPods dependencies
+        working-directory: ${{ inputs.working-directory }}/ios
+        run: pod install
+      
+      - name: Install Maestro CLI
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+      
+      - name: Start Metro bundler in background
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          pnpm exec expo start --dev-client --clear --port 8081 &
+          sleep 10
+          echo "✅ Metro bundler started on port 8081"
+      
+      - name: Get simulator UDID
+        id: sim-udid
+        run: |
+          UDID=$(xcrun simctl list devices available | grep "${{ inputs.simulator-device }}" | head -n 1 | sed -E 's/.*\(([A-F0-9-]+)\).*/\1/')
+          echo "SIMULATOR_UDID=$UDID" >> $GITHUB_ENV
+          echo "Found ${{ inputs.simulator-device }} UDID: $UDID"
+      
+      - name: Build and deploy iOS app via Expo
+        working-directory: ${{ inputs.working-directory }}
+        env:
+          APP_BUNDLE_ID: ${{ secrets.bundle-id }}
+        run: |
+          pnpm exec expo run:ios --device "$SIMULATOR_UDID" --no-bundler
+      
+      - name: Run Maestro tests with bundle ID
+        id: maestro-tests
+        working-directory: ${{ inputs.working-directory }}
+        continue-on-error: true
+        env:
+          APP_BUNDLE_ID: ${{ secrets.bundle-id }}
+        run: |
+          export PATH="$HOME/.maestro/bin:$PATH"
+          maestro test ${{ inputs.test-path }} --format junit --output junit-report.xml
+      
+      - name: Upload Maestro test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name-prefix }}-${{ github.run_id }}
+          path: ${{ inputs.working-directory }}/junit-report.xml
+          retention-days: 14
+          if-no-files-found: warn
+      
+      - name: Generate test summary
+        if: always()
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          echo "## 📱 Maestro Expo iOS Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "junit-report.xml" ]; then
+            tests=$(sed -n 's/.*tests="\([0-9]*\)".*/\1/p' junit-report.xml | head -1)
+            failures=$(sed -n 's/.*failures="\([0-9]*\)".*/\1/p' junit-report.xml | head -1)
+            passed=$((tests - failures))
+            echo "- **Total Tests:** $tests" >> $GITHUB_STEP_SUMMARY
+            echo "- **Passed:** ✅ $passed" >> $GITHUB_STEP_SUMMARY
+            if [ "$failures" -gt 0 ]; then
+              echo "- **Failed:** ❌ $failures" >> $GITHUB_STEP_SUMMARY
+            fi
+            echo "- **Device:** ${{ inputs.simulator-device }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Bundle ID:** ${{ secrets.bundle-id }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ No test results found" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Check test outcome and fail if tests failed
+        if: always()
+        run: |
+          if [ "${{ steps.maestro-tests.outcome }}" = "failure" ]; then
+            echo "::error::Maestro tests failed. See Test Results Summary above."
+            exit 1
+          fi
