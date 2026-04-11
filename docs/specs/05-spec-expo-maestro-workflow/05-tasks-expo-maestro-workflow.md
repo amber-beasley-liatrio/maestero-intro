@@ -137,7 +137,7 @@
 - [x] 3.3 Add job with `uses: ./.github/workflows/maestro-test-ios-expo-reusable.yml` reference
 - [x] 3.4 Add `with:` block with 5 inputs: `working-directory: '.'`, `simulator-device: 'iPhone 16'`, `timeout-minutes: 40`, `test-path: '.maestro/'`, `artifact-name-prefix: 'maestro-expo-test-results'`
 - [x] 3.5 Add `secrets:` block with `bundle-id: ${{ secrets.EXPO_PUBLIC_BUNDLE_ID_DEBUG }}`
-- [~] 3.6 Commit caller workflow: `git commit -m "feat(ci): add Expo Maestro iOS caller workflow for manual testing"`
+- [x] 3.6 Commit caller workflow: `git commit -m "feat(ci): add Expo Maestro iOS caller workflow for manual testing"`
 - [ ] 3.7 Configure GitHub repository secret `EXPO_PUBLIC_BUNDLE_ID_DEBUG` with appropriate bundle ID value (e.g., `com.maestrotestapp.dev`)
 - [ ] 3.8 Push branch to GitHub remote
 - [ ] 3.9 Navigate to Actions tab and manually trigger "Expo Maestro iOS Tests" workflow
