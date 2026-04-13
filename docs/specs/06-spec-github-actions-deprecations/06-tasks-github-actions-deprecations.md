@@ -110,4 +110,20 @@
 
 #### 3.0 Tasks
 
-TBD
+- [x] 3.1 Review all changes to ensure both deprecation fixes are applied correctly
+- [x] 3.2 Commit changes with descriptive message: `fix(ci): resolve Node.js 20 and CocoaPods deprecation warnings`
+- [x] 3.3 Include detailed commit body explaining: (a) Node.js 24 migration approach, (b) pod install removal rationale, (c) expected behavior changes if any
+- [x] 3.4 Push changes to trigger workflow execution on GitHub Actions
+- [ ] 3.5 Navigate to GitHub Actions tab and locate the triggered workflow run
+- [ ] 3.6 Monitor workflow execution through all steps
+- [ ] 3.7 Review workflow logs for "Setup pnpm", "Setup Node.js", "Setup Java", "Cache" steps to verify they complete successfully
+- [ ] 3.8 Verify workflow logs show NO Node.js 20 deprecation warning in any step
+- [ ] 3.9 Verify workflow logs show NO CocoaPods direct install deprecation warning
+- [ ] 3.10 Confirm "Build and deploy iOS app via Expo" step succeeds (expo run:ios handles pod install)
+- [ ] 3.11 Verify "Cache CocoaPods dependencies" step still shows cache restore or save action (cache functionality intact)
+- [ ] 3.12 Verify "Run Maestro tests" step shows 3/3 tests passing
+- [ ] 3.13 Download and review JUnit XML artifact to confirm test success
+- [ ] 3.14 Compare workflow duration to baseline (~11 minutes from Run #9) to ensure no significant regression
+- [ ] 3.15 Document any observed behavior changes or differences in commit message or follow-up comment
+- [ ] 3.16 If any warnings persist, investigate root cause and iterate on fixes
+- [ ] 3.17 Once all validations pass, document completion and next steps for expanding fix to other workflows if desired
