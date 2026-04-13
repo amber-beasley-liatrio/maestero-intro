@@ -2,23 +2,27 @@
 
 ## Introduction/Overview
 
-This specification guides implementation of Maestro iOS mobile testing automation in a React Native repository using the reusable workflow pattern established in `amber-beasley-liatrio/maestero-intro`. The implementation will enable automated iOS simulator testing via GitHub Actions with a DRY (Don't Repeat Yourself) workflow architecture.
+This specification guides implementation of Maestro iOS mobile testing automation in an Expo or React Native repository using the reusable workflow pattern established in `amber-beasley-liatrio/maestero-intro`. The implementation will enable automated iOS simulator testing via GitHub Actions with a DRY (Don't Repeat Yourself) workflow architecture, supporting both Expo SDK managed workflows and traditional React Native CLI projects.
 
 ## Goals
 
 - Establish automated Maestro iOS testing capability in the target repository
 - Implement the reusable workflow pattern to minimize workflow code duplication
-- Configure flexible testing options via workflow inputs (device, timeout, test path, artifacts)
+- Configure flexible testing options via workflow inputs (working directory, device, timeout, test path, artifacts, bundle ID)
 - Enable manual-triggered test execution for controlled testing workflows
+- Support Expo SDK workflows with prebuild, pnpm, and dual caching strategies
+- Follow GitHub Actions best practices for environment variable management
 - Preserve repository-specific conventions and development patterns
 
 ## User Stories
+
+**As an Expo developer**, I want to run automated iOS tests in GitHub Actions using Expo prebuild so that I can validate app functionality without manual simulator testing or committing native code.
 
 **As a React Native developer**, I want to run automated iOS tests in GitHub Actions so that I can validate app functionality without manual simulator testing.
 
 **As a CI/CD engineer**, I want a reusable workflow definition so that multiple caller workflows can share test logic without code duplication.
 
-**As a QA engineer**, I want configurable test parameters (device type, timeout, test paths) so that I can validate different testing scenarios without modifying workflow files.
+**As a QA engineer**, I want configurable test parameters (working directory, device type, timeout, test paths, bundle ID) so that I can validate different testing scenarios without modifying workflow files.
 
 **As a team lead**, I want manual-trigger workflows so that tests run on-demand rather than consuming CI resources on every commit.
 
@@ -30,48 +34,64 @@ This specification guides implementation of Maestro iOS mobile testing automatio
 
 **Functional Requirements:**
 - The repository shall contain a `.maestro/` directory with at least one working test flow
-- The Maestro test(s) shall launch the app on an iOS simulator and validate app startup
-- The test flow shall use basic Maestro commands (launchApp, assertVisible, tapOn) to demonstrate functionality
-- The repository shall document Maestro test creation patterns in README or docs/
+- The Maestro test(s) shall use environment variable substitution for bundle ID (e.g., `appId: ${APP_BUNDLE_ID}`) to support dynamic configuration
+- The test flow shall use basic Maestro commands (launchApp, assertVisible, tapOn, extendedWaitUntil) to demonstrate functionality
+- The repository shall document Maestro test creation patterns and environment variable usage in README or docs/
 
 **Proof Artifacts:**
 - Directory: `.maestro/` exists with `.yaml` test files demonstrates Maestro tests created
-- CLI: `maestro test .maestro/` runs locally and passes demonstrates tests are functional
-- File: README.md or docs/testing.md documents Maestro test patterns demonstrates developer guidance available
+- YAML: Test flows use `${APP_BUNDLE_ID}` variable substitution demonstrates dynamic bundle ID support
+- CLI: `maestro test -e APP_BUNDLE_ID=<bundle-id> .maestro/` runs locally and passes demonstrates tests are functional
+- File: README.md or docs/testing.md documents Maestro test patterns and environment variable usage demonstrates developer guidance available
 
 ### Unit 2: Reusable Workflow Implementation
 
 **Purpose:** Create or adopt the reusable Maestro iOS testing workflow that accepts configurable inputs and executes tests on GitHub Actions macos runners, establishing the single source of truth for test execution.
 
 **Functional Requirements:**
-- The repository shall contain `.github/workflows/maestro-test-ios-reusable.yml` with `workflow_call` trigger
-- The workflow shall accept 4 typed inputs: simulator-device (string), timeout-minutes (number), test-path (string), artifact-name-prefix (string)
-- The workflow shall include CocoaPods caching using `actions/cache@v4` with Podfile.lock hash key
-- The workflow shall extract simulator UDID using `xcrun simctl list devices available --json | jq` with device name from inputs
-- The workflow shall start Metro bundler with configurable wait time and run Maestro tests with JUNIT output
+- The repository shall contain `.github/workflows/maestro-test-ios-expo-reusable.yml` (or `maestro-test-ios-reusable.yml`) with `workflow_call` trigger
+- The workflow shall accept 5 typed inputs: working-directory (string), simulator-device (string), timeout-minutes (number), test-path (string), artifact-name-prefix (string)
+- The workflow shall accept 1 required secret: bundle-id (string) for iOS bundle identifier
+- The workflow shall define environment variables at job-level following GitHub Actions best practices
+- The workflow shall setup pnpm before Node.js to ensure correct package manager availability
+- The workflow shall include dual caching: Expo prebuild outputs (keyed by app.json + package.json) and CocoaPods (keyed by Podfile.lock)
+- The workflow shall run on macos-15 runners for Xcode 16+ support
+- The workflow shall create .env file dynamically from bundle-id secret for Expo prebuild
+- The workflow shall execute Expo prebuild to generate native iOS project before building
+- The workflow shall extract simulator UDID using `xcrun simctl list devices available` with device name from inputs
+- The workflow shall start Metro bundler in background and run Maestro tests with `-e APP_BUNDLE_ID` flag and JUNIT output
 - The workflow shall upload test result artifacts and generate test summary in GitHub Actions UI
 
 **Proof Artifacts:**
-- File: `.github/workflows/maestro-test-ios-reusable.yml` exists with ~120-150 lines demonstrates reusable workflow created
-- YAML: `workflow_call` trigger with 4 typed inputs demonstrates proper reusable workflow structure
-- YAML: CocoaPods cache step with `actions/cache@v4` demonstrates optimization included
+- File: `.github/workflows/maestro-test-ios-expo-reusable.yml` exists with ~170-180 lines demonstrates reusable workflow created
+- YAML: `workflow_call` trigger with 5 typed inputs (working-directory, simulator-device, timeout-minutes, test-path, artifact-name-prefix) demonstrates proper reusable workflow structure
+- YAML: `secrets:` section with required bundle-id demonstrates secure bundle ID handling
+- YAML: Job-level `env:` block with APP_BUNDLE_ID and MAESTRO_CLI_NO_ANALYTICS demonstrates GitHub best practices
+- YAML: pnpm setup step (`pnpm/action-setup@v4`) before Node.js setup demonstrates correct package manager configuration
+- YAML: Dual cache steps (Expo prebuild + CocoaPods) with `actions/cache@v4` demonstrates optimization included
+- YAML: `.env` file creation from `${{ secrets.bundle-id }}` demonstrates Expo configuration
+- YAML: `expo prebuild --platform ios --clean` step demonstrates Expo project generation
+- YAML: `maestro test -e APP_BUNDLE_ID="$APP_BUNDLE_ID"` demonstrates environment variable passing to tests
 - YAML: UDID extraction using `${{ inputs.simulator-device }}` demonstrates parameterization
+- YAML: Job runs on `macos-15` demonstrates Xcode 16+ support
 
 ### Unit 3: Caller Workflow Configuration
 
 **Purpose:** Create minimal caller workflows that invoke the reusable workflow with repository-specific input values, enabling on-demand test execution via manual triggers.
 
 **Functional Requirements:**
-- The repository shall contain at least one caller workflow file (e.g., `.github/workflows/maestro-ios-tests.yml`) with `workflow_dispatch` trigger
-- The caller workflow shall use `./.github/workflows/maestro-test-ios-reusable.yml` via the `uses` keyword
-- The caller workflow shall pass appropriate values for all 4 inputs in the `with:` block
-- The caller workflow shall be reduced to ~15 lines total (name, trigger, single job definition)
+- The repository shall contain at least one caller workflow file (e.g., `.github/workflows/maestro-expo-ios-tests.yml`) with `workflow_dispatch` trigger
+- The caller workflow shall use `./.github/workflows/maestro-test-ios-expo-reusable.yml` via the `uses` keyword
+- The caller workflow shall pass appropriate values for all 5 inputs in the `with:` block
+- The caller workflow shall pass bundle-id from repository secrets in the `secrets:` block
+- The caller workflow shall be reduced to ~17 lines total (name, trigger, single job definition)
 
 **Proof Artifacts:**
-- File: `.github/workflows/maestro-ios-tests.yml` (or similar) exists with ~15 lines demonstrates caller created
+- File: `.github/workflows/maestro-expo-ios-tests.yml` (or similar) exists with ~17 lines demonstrates caller created
 - YAML: Only `workflow_dispatch` trigger present demonstrates manual-only execution
-- YAML: Job uses `./.github/workflows/maestro-test-ios-reusable.yml` via `uses` keyword demonstrates reusable workflow reference
-- YAML: `with:` block passing values for all 4 inputs demonstrates caller configuration
+- YAML: Job uses `./.github/workflows/maestro-test-ios-expo-reusable.yml` via `uses` keyword demonstrates reusable workflow reference
+- YAML: `with:` block passing values for all 5 inputs demonstrates caller configuration
+- YAML: `secrets:` block with `bundle-id: ${{ secrets.EXPO_PUBLIC_BUNDLE_ID_DEBUG }}` demonstrates secure secret passing
 
 ### Unit 4: Workflow Validation
 
@@ -107,11 +127,14 @@ No specific UI/UX design requirements. The GitHub Actions workflow UI will use s
 Implementation should follow these patterns from the reference repository (`amber-beasley-liatrio/maestero-intro`):
 
 - **YAML indentation**: 2 spaces for GitHub Actions workflows
-- **Workflow naming**: Clear, descriptive names (e.g., "Maestro iOS Tests", "Reusable Maestro iOS Test Workflow")
-- **Input naming**: kebab-case for workflow inputs (simulator-device, timeout-minutes, test-path, artifact-name-prefix)
-- **Commit conventions**: Use conventional commits format if repository follows this pattern (e.g., `feat(ci):`, `test(maestro):`)
+- **Workflow naming**: Clear, descriptive names (e.g., "Expo Maestro iOS Tests", "Reusable Maestro Expo iOS Test Workflow")
+- **Input naming**: kebab-case for workflow inputs (working-directory, simulator-device, timeout-minutes, test-path, artifact-name-prefix)
+- **Secret naming**: UPPERCASE_SNAKE_CASE for repository secrets (e.g., EXPO_PUBLIC_BUNDLE_ID_DEBUG)
+- **Environment variables**: Job-level definition following GitHub Actions best practices (define once at job level, available to all steps)
+- **Commit conventions**: Use conventional commits format if repository follows this pattern (e.g., `feat(ci):`, `feat(expo):`, `test(maestro):`, `refactor(ci):`)
 - **Step naming**: Clear step names with inline comments in workflow YAML where needed
-- **File organization**: Workflows in `.github/workflows/`, Maestro tests in `.maestro/`
+- **File organization**: Workflows in `.github/workflows/`, Maestro tests in `.maestro/`, Expo config in `app.json`
+- **Expo configuration**: Use `app.json` with `expo.ios.bundleIdentifier` and `expo.android.package` fields for bundle ID management
 
 Additional repository-specific standards should be identified during context assessment and incorporated into implementation.
 
@@ -119,27 +142,39 @@ Additional repository-specific standards should be identified during context ass
 
 ### Required Dependencies
 
-- **React Native Application**: Repository must contain a React Native app with iOS target
-- **CocoaPods Configuration**: `ios/Podfile` and `ios/Podfile.lock` must exist
-- **Node.js and npm**: Application must use npm for JavaScript dependency management
-- **GitHub Actions Runner**: Workflows will use `macos-15` runners (or latest stable macOS runner available)
+- **Expo or React Native Application**: Repository must contain an Expo SDK app or React Native app with iOS target
+- **Expo SDK Configuration** (for Expo projects): `app.json` with `expo.ios.bundleIdentifier` configured
+- **Package Manager**: Application must use pnpm (recommended) or npm for JavaScript dependency management
+- **pnpm-lock.yaml**: For Expo/pnpm projects, lock file must be committed for reproducible CI builds
+- **CocoaPods Configuration**: For React Native CLI projects, `ios/Podfile` and `ios/Podfile.lock` must exist (generated by Expo prebuild for Expo projects)
+- **GitHub Actions Runner**: Workflows will use `macos-15` runners for Xcode 16+ support
 
 ### Reference Implementation
 
 The reusable workflow pattern is based on `amber-beasley-liatrio/maestero-intro` repository:
 
-- **Reference workflow**: `.github/workflows/maestro-test-ios-reusable.yml` (129 lines)
-- **Caller example**: `.github/workflows/main.yml` (14 lines, manual trigger)
-- **Optimizations included**: CocoaPods caching with `actions/cache@v4`, UDID-based simulator targeting, Metro bundler 5-second wait, `pod install --silent`
+- **Expo workflow**: `.github/workflows/maestro-test-ios-expo-reusable.yml` (174 lines)
+- **React Native CLI workflow**: `.github/workflows/maestro-test-ios-reusable.yml` (129 lines)
+- **Expo caller example**: `.github/workflows/maestro-expo-ios-tests.yml` (17 lines, manual trigger)
+- **React Native CLI caller example**: `.github/workflows/main.yml` (14 lines, manual trigger)
+- **Expo optimizations**: Dual caching (Expo prebuild + CocoaPods), job-level environment variables, pnpm setup sequence, macos-15 runners, dynamic .env creation, `-e` flag for Maestro environment variables
+- **React Native CLI optimizations**: CocoaPods caching with `actions/cache@v4`, UDID-based simulator targeting, Metro bundler 5-second wait, `pod install --silent`
 
 ### Workflow Input Configuration
 
-The reusable workflow accepts 4 typed inputs:
+The Expo reusable workflow accepts 5 typed inputs and 1 required secret:
 
-1. **simulator-device** (string, default: "iPhone 16"): iOS simulator device name for testing
-2. **timeout-minutes** (number, default: 30): Job timeout duration in minutes
-3. **test-path** (string, default: ".maestro/"): Path to Maestro test files or directories
-4. **artifact-name-prefix** (string, default: "maestro-test-results"): Prefix for uploaded test result artifacts
+**Inputs:**
+1. **working-directory** (string, default: "."): Working directory for monorepo support
+2. **simulator-device** (string, default: "iPhone 16"): iOS simulator device name for testing
+3. **timeout-minutes** (number, default: 40): Job timeout duration in minutes (Expo workflows typically need more time)
+4. **test-path** (string, default: ".maestro/"): Path to Maestro test files or directories
+5. **artifact-name-prefix** (string, default: "maestro-expo-test-results"): Prefix for uploaded test result artifacts
+
+**Secrets:**
+1. **bundle-id** (required): iOS bundle identifier for the app (e.g., "com.example.app.dev")
+
+The React Native CLI workflow accepts 4 typed inputs (no working-directory or bundle-id secret needed).
 
 Caller workflows should configure these inputs based on repository-specific needs.
 
@@ -156,7 +191,11 @@ This installs the latest stable Maestro version. The workflow adds `~/.maestro/b
 
 - **macOS runners only**: iOS simulator testing requires macOS runners (GitHub Actions limitation)
 - **Simulator availability**: Workflow assumes standard iPhone simulators are available on GitHub Actions macOS images
+- **Xcode version**: macos-15 runners provide Xcode 16+, which may not be compatible with older Expo SDK or React Native versions
+- **Expo prebuild timing**: First workflow run takes ~15 minutes (no cache), subsequent runs ~5-7 minutes with cache hits
 - **Metro bundler timing**: 5-second Metro wait is a balance between reliability and speed (adjust if needed for specific apps)
+- **Bundle ID management**: Expo workflows require bundle ID as secret; ensure repository secrets are configured before workflow execution
+- **Environment variable passing**: Maestro requires explicit `-e KEY=value` flag; environment variables set in workflow/job do not auto-pass to Maestro tests
 - **JUNIT output format**: Test results use JUNIT XML format for artifact storage and GitHub Actions test result parsing
 
 ## Security Considerations
@@ -189,8 +228,13 @@ No additional security considerations identified for basic iOS simulator testing
 
 ## Open Questions
 
-1. **Maestro test coverage**: What app functionality should the initial Maestro tests cover? (e.g., app launch only, or critical user flows?)
-2. **Simulator device selection**: Should the workflow default to latest iOS device (e.g., iPhone 16) or a specific earlier version for compatibility testing?
-3. **Workflow trigger strategy**: Should caller workflows be manual-only, or include automatic triggers (push, pull_request) despite non-goals?
-4. **Multiple caller workflows**: Does the repository need separate workflows for different testing scenarios (e.g., smoke tests vs. full regression), or one unified caller?
-5. **Metro bundler wait time**: Is 5 seconds sufficient for this repository's Metro startup, or should it be adjusted based on app size/complexity?
+1. **Project type**: Is the target repository using Expo SDK or React Native CLI? This determines which workflow reference to adopt.
+2. **Package manager**: Does the repository use pnpm, npm, or yarn? Expo workflows are optimized for pnpm.
+3. **Maestro test coverage**: What app functionality should the initial Maestro tests cover? (e.g., app launch only, or critical user flows?)
+4. **Bundle ID strategy**: What bundle identifier should be used for testing? (e.g., production bundle ID, dedicated test bundle ID, or environment-specific?)
+5. **Simulator device selection**: Should the workflow default to latest iOS device (e.g., iPhone 16) or a specific earlier version for compatibility testing?
+6. **Workflow trigger strategy**: Should caller workflows be manual-only, or include automatic triggers (push, pull_request) despite non-goals?
+7. **Multiple caller workflows**: Does the repository need separate workflows for different testing scenarios (e.g., smoke tests vs. full regression), or one unified caller?
+8. **Metro bundler wait time**: Is 5 seconds sufficient for this repository's Metro startup, or should it be adjusted based on app size/complexity?
+9. **Monorepo support**: If in a monorepo, what is the working-directory path to the app? (e.g., "./apps/mobile")
+10. **Environment variables**: What other environment variables do Maestro tests need beyond APP_BUNDLE_ID? (e.g., API URLs, feature flags)
