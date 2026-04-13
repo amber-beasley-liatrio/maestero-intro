@@ -28,10 +28,10 @@ on:
         required: false
         type: string
         default: 'maestro-expo-test-results'
-    secrets:
       bundle-id:
         description: 'iOS bundle identifier for the app'
         required: true
+        type: string
 
 jobs:
   test-expo-ios:
@@ -39,7 +39,7 @@ jobs:
     runs-on: macos-15
     timeout-minutes: ${{ inputs.timeout-minutes }}
     env:
-      APP_BUNDLE_ID: ${{ secrets.bundle-id }}
+      APP_BUNDLE_ID: ${{ inputs.bundle-id }}
       MAESTRO_CLI_NO_ANALYTICS: 'true'
     
     steps:
@@ -123,8 +123,6 @@ jobs:
       
       - name: Build and deploy iOS app via Expo
         working-directory: ${{ inputs.working-directory }}
-        env:
-          APP_BUNDLE_ID: ${{ secrets.bundle-id }}
         run: |
           pnpm exec expo run:ios --device "$SIMULATOR_UDID" --no-bundler
       
@@ -161,7 +159,7 @@ jobs:
               echo "- **Failed:** ❌ $failures" >> $GITHUB_STEP_SUMMARY
             fi
             echo "- **Device:** ${{ inputs.simulator-device }}" >> $GITHUB_STEP_SUMMARY
-            echo "- **Bundle ID:** ${{ secrets.bundle-id }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Bundle ID:** ${{ inputs.bundle-id }}" >> $GITHUB_STEP_SUMMARY
           else
             echo "⚠️ No test results found" >> $GITHUB_STEP_SUMMARY
           fi
