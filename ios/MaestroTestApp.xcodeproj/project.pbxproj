@@ -8,23 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		902F805DB2CC5F2893CA2482 /* libPods-MaestroTestApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05861A1FA20A4C02096CCFC9 /* libPods-MaestroTestApp.a */; };
-		D8885739B391117365395013 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		99F5ECBC2E2C4F9C8BF6CFF0 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099F19C8E545EF692923CC19 /* ExpoModulesProvider.swift */; };
+		AF40C6446F70B076339D08FD /* libPods-MaestroTestApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9303F334E3BE6B371A41554 /* libPods-MaestroTestApp.a */; };
+		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		C995BAA51FD5C8704E6F41D9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FBF214330526616C0012D2AA /* PrivacyInfo.xcprivacy */; };
+		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		05861A1FA20A4C02096CCFC9 /* libPods-MaestroTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MaestroTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		05AF2A5E987130BFAF1913B6 /* Pods-MaestroTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaestroTestApp.release.xcconfig"; path = "Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp.release.xcconfig"; sourceTree = "<group>"; };
+		099F19C8E545EF692923CC19 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-MaestroTestApp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* MaestroTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MaestroTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = MaestroTestApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = MaestroTestApp/Info.plist; sourceTree = "<group>"; };
-		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = MaestroTestApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		64F00B00B70B7001D44CD51F /* Pods-MaestroTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaestroTestApp.debug.xcconfig"; path = "Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp.debug.xcconfig"; sourceTree = "<group>"; };
-		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = MaestroTestApp/AppDelegate.swift; sourceTree = "<group>"; };
-		7F573C569E357A23A0264D27 /* Pods-MaestroTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaestroTestApp.release.xcconfig"; path = "Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp.release.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MaestroTestApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2527ABF77ECFB2EE6FD8F1F3 /* Pods-MaestroTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaestroTestApp.debug.xcconfig"; path = "Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp.debug.xcconfig"; sourceTree = "<group>"; };
+		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = MaestroTestApp/SplashScreen.storyboard; sourceTree = "<group>"; };
+		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		C9303F334E3BE6B371A41554 /* libPods-MaestroTestApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MaestroTestApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = MaestroTestApp/AppDelegate.swift; sourceTree = "<group>"; };
+		F11748442D0722820044C1D9 /* MaestroTestApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "MaestroTestApp-Bridging-Header.h"; path = "MaestroTestApp/MaestroTestApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		FBF214330526616C0012D2AA /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = MaestroTestApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				902F805DB2CC5F2893CA2482 /* libPods-MaestroTestApp.a in Frameworks */,
+				AF40C6446F70B076339D08FD /* libPods-MaestroTestApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,11 +47,21 @@
 		13B07FAE1A68108700A75B9A /* MaestroTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
+				F11748442D0722820044C1D9 /* MaestroTestApp-Bridging-Header.h */,
+				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
-				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+				FBF214330526616C0012D2AA /* PrivacyInfo.xcprivacy */,
+			);
+			name = MaestroTestApp;
+			sourceTree = "<group>";
+		};
+		171685562056143D09F04FBA /* MaestroTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				099F19C8E545EF692923CC19 /* ExpoModulesProvider.swift */,
 			);
 			name = MaestroTestApp;
 			sourceTree = "<group>";
@@ -55,9 +70,19 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				05861A1FA20A4C02096CCFC9 /* libPods-MaestroTestApp.a */,
+				C9303F334E3BE6B371A41554 /* libPods-MaestroTestApp.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		427BDED796FBEEB71285AD7B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2527ABF77ECFB2EE6FD8F1F3 /* Pods-MaestroTestApp.debug.xcconfig */,
+				05AF2A5E987130BFAF1913B6 /* Pods-MaestroTestApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -74,7 +99,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				427BDED796FBEEB71285AD7B /* Pods */,
+				8D829D8D2C7C5001F46733AF /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -89,13 +115,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
+		8D829D8D2C7C5001F46733AF /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				64F00B00B70B7001D44CD51F /* Pods-MaestroTestApp.debug.xcconfig */,
-				7F573C569E357A23A0264D27 /* Pods-MaestroTestApp.release.xcconfig */,
+				171685562056143D09F04FBA /* MaestroTestApp */,
 			);
-			path = Pods;
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		BB2F792B24A3F905000567C9 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				BB2F792C24A3F905000567C9 /* Expo.plist */,
+			);
+			name = Supporting;
+			path = MaestroTestApp/Supporting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -105,13 +139,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "MaestroTestApp" */;
 			buildPhases = (
-				03F6338B2097A10505611FCF /* [CP] Check Pods Manifest.lock */,
+				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
+				87F9B9D33687BCA57219DC8B /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				CC7A7CC3BA4231C49F0676B5 /* [CP] Embed Pods Frameworks */,
-				EF6C29A40D7C84993E6DB62C /* [CP] Copy Pods Resources */,
+				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
+				8388D0B2F6A26F82EA9499C8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -128,15 +163,15 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "MaestroTestApp" */;
-			compatibilityVersion = "Xcode 12.0";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -158,9 +193,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				D8885739B391117365395013 /* PrivacyInfo.xcprivacy in Resources */,
+				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
+				C995BAA51FD5C8704E6F41D9 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,21 +205,22 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/.xcode.env.local",
 				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
 			);
 			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"\\\"$WITH_ENVIRONMENT\\\" \\\"$REACT_NATIVE_XCODE\\\"\"\n";
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
 		};
-		03F6338B2097A10505611FCF /* [CP] Check Pods Manifest.lock */ = {
+		08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -205,39 +242,77 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CC7A7CC3BA4231C49F0676B5 /* [CP] Embed Pods Frameworks */ = {
+		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8388D0B2F6A26F82EA9499C8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EF6C29A40D7C84993E6DB62C /* [CP] Copy Pods Resources */ = {
+		87F9B9D33687BCA57219DC8B /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/MaestroTestApp/MaestroTestApp.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-MaestroTestApp/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-MaestroTestApp/ExpoModulesProvider.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MaestroTestApp/Pods-MaestroTestApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-MaestroTestApp/expo-configure-project.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -246,7 +321,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
+				99F5ECBC2E2C4F9C8BF6CFF0 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,12 +331,17 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 64F00B00B70B7001D44CD51F /* Pods-MaestroTestApp.debug.xcconfig */;
+			baseConfigurationReference = 2527ABF77ECFB2EE6FD8F1F3 /* Pods-MaestroTestApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MaestroTestApp/MaestroTestApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"FB_SONARKIT_ENABLED=1",
+				);
 				INFOPLIST_FILE = MaestroTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -273,9 +354,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.maestrotestapp.dev;
 				PRODUCT_NAME = MaestroTestApp;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_OBJC_BRIDGING_HEADER = "MaestroTestApp/MaestroTestApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -285,10 +367,11 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F573C569E357A23A0264D27 /* Pods-MaestroTestApp.release.xcconfig */;
+			baseConfigurationReference = 05AF2A5E987130BFAF1913B6 /* Pods-MaestroTestApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = MaestroTestApp/MaestroTestApp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = MaestroTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -302,9 +385,10 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
+				PRODUCT_BUNDLE_IDENTIFIER = com.maestrotestapp.dev;
 				PRODUCT_NAME = MaestroTestApp;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_OBJC_BRIDGING_HEADER = "MaestroTestApp/MaestroTestApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -334,7 +418,6 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -344,7 +427,6 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -365,27 +447,10 @@
 					/usr/lib/swift,
 					"$(inherited)",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SDKROOT)/usr/lib/swift\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-DFOLLY_NO_CONFIG",
-					"-DFOLLY_MOBILE=1",
-					"-DFOLLY_USE_LIBCPP=1",
-					"-DFOLLY_CFG_NO_COROUTINES=1",
-					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/.pnpm/react-native@0.81.5_@babel+core@7.29.0_@react-native-community+cli@20.1.0_typescript@5._ec4f9cf73f89bf789cd131778c49c294/node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
@@ -416,7 +481,6 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -426,7 +490,6 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -440,26 +503,9 @@
 					/usr/lib/swift,
 					"$(inherited)",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SDKROOT)/usr/lib/swift\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(OTHER_CFLAGS)",
-					"-DFOLLY_NO_CONFIG",
-					"-DFOLLY_MOBILE=1",
-					"-DFOLLY_USE_LIBCPP=1",
-					"-DFOLLY_CFG_NO_COROUTINES=1",
-					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/.pnpm/react-native@0.81.5_@babel+core@7.29.0_@react-native-community+cli@20.1.0_typescript@5._ec4f9cf73f89bf789cd131778c49c294/node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				USE_HERMES = true;

@@ -41,6 +41,7 @@ jobs:
     env:
       APP_BUNDLE_ID: ${{ inputs.bundle-id }}
       MAESTRO_CLI_NO_ANALYTICS: 'true'
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'  # Opt into Node.js 24 for GitHub Actions runtime
     
     steps:
       - name: Checkout code
