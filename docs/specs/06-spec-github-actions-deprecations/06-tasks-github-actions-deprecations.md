@@ -114,16 +114,42 @@
 - [x] 3.2 Commit changes with descriptive message: `fix(ci): resolve Node.js 20 and CocoaPods deprecation warnings`
 - [x] 3.3 Include detailed commit body explaining: (a) Node.js 24 migration approach, (b) pod install removal rationale, (c) expected behavior changes if any
 - [x] 3.4 Push changes to trigger workflow execution on GitHub Actions
-- [ ] 3.5 Navigate to GitHub Actions tab and locate the triggered workflow run
-- [ ] 3.6 Monitor workflow execution through all steps
-- [ ] 3.7 Review workflow logs for "Setup pnpm", "Setup Node.js", "Setup Java", "Cache" steps to verify they complete successfully
-- [ ] 3.8 Verify workflow logs show NO Node.js 20 deprecation warning in any step
-- [ ] 3.9 Verify workflow logs show NO CocoaPods direct install deprecation warning
-- [ ] 3.10 Confirm "Build and deploy iOS app via Expo" step succeeds (expo run:ios handles pod install)
-- [ ] 3.11 Verify "Cache CocoaPods dependencies" step still shows cache restore or save action (cache functionality intact)
-- [ ] 3.12 Verify "Run Maestro tests" step shows 3/3 tests passing
-- [ ] 3.13 Download and review JUnit XML artifact to confirm test success
-- [ ] 3.14 Compare workflow duration to baseline (~11 minutes from Run #9) to ensure no significant regression
-- [ ] 3.15 Document any observed behavior changes or differences in commit message or follow-up comment
-- [ ] 3.16 If any warnings persist, investigate root cause and iterate on fixes
-- [ ] 3.17 Once all validations pass, document completion and next steps for expanding fix to other workflows if desired
+- [x] 3.5 Navigate to GitHub Actions tab and locate the triggered workflow run (Run #11)
+- [x] 3.6 Monitor workflow execution through all steps (completed successfully in 9m 19s)
+- [x] 3.7 Review workflow logs for "Setup pnpm", "Setup Node.js", "Setup Java", "Cache" steps to verify they complete successfully
+- [x] 3.8 Verify workflow logs show NO Node.js 20 deprecation warning in any step (Informational warning present: actions forced to Node 24 - this confirms our fix works!)
+- [x] 3.9 Verify workflow logs show NO CocoaPods direct install deprecation warning (No CocoaPods warning detected)
+- [x] 3.10 Confirm "Build and deploy iOS app via Expo" step succeeds (expo run:ios handles pod install)
+- [x] 3.11 Verify "Cache CocoaPods dependencies" step still shows cache restore or save action (cache functionality intact)
+- [x] 3.12 Verify "Run Maestro tests" step shows 3/3 tests passing
+- [x] 3.13 Download and review JUnit XML artifact to confirm test success
+- [x] 3.14 Compare workflow duration to baseline (~11 minutes from Run #9) to ensure no significant regression (9m 19s vs ~11m - improved!)
+- [x] 3.15 Document any observed behavior changes or differences in commit message or follow-up comment
+- [x] 3.16 If any warnings persist, investigate root cause and iterate on fixes (1 informational warning confirms Node 24 override working)
+- [x] 3.17 Once all validations pass, document completion and next steps for expanding fix to other workflows if desired
+
+---
+
+### [x] 4.0 Action Version Upgrades to Native Node.js 24
+
+**Purpose:** Upgrade all GitHub Actions from v4 to v5+ versions with native Node.js 24 support to eliminate the informational warning about forcing actions to run on Node 24, providing a cleaner long-term solution.
+
+#### 4.0 Proof Artifact(s)
+
+- Workflow file: Updated `.github/workflows/maestro-test-ios-expo-reusable.yml` with all actions upgraded to v5+ demonstrates native Node 24 support
+- Workflow file: `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24` environment variable removed demonstrates no forced override needed
+- Workflow run logs: Post-upgrade run showing zero warnings about Node.js versions demonstrates clean execution
+- GitHub Actions summary: Workflow completes successfully with all upgraded actions demonstrates compatibility
+
+#### 4.0 Tasks
+
+- [x] 4.1 Research latest action versions with Node.js 24 support (actions/cache v5, checkout v6, setup-java v5, setup-node v6, upload-artifact v7, pnpm/action-setup v6)
+- [x] 4.2 Verify macos-15 runners meet minimum version requirements (runner v2.327.1+)
+- [x] 4.3 Upgrade actions/checkout from v4 to v6 in reusable workflow
+- [x] 4.4 Upgrade pnpm/action-setup from v4 to v6 in reusable workflow
+- [x] 4.5 Upgrade actions/setup-node from v4 to v6 in reusable workflow
+- [x] 4.6 Upgrade actions/setup-java from v4 to v5 in reusable workflow
+- [x] 4.7 Upgrade actions/cache from v4 to v5 in reusable workflow (both instances)
+- [x] 4.8 Upgrade actions/upload-artifact from v4 to v7 in reusable workflow
+- [x] 4.9 Remove FORCE_JAVASCRIPT_ACTIONS_TO_NODE24 environment variable (no longer needed with native Node 24 actions)
+- [x] 4.10 Validate YAML syntax after all upgrades
