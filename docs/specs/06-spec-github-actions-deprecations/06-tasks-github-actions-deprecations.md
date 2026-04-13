@@ -22,7 +22,7 @@
 
 ## Tasks
 
-### [~] 1.0 Node.js 22 Migration Research and Implementation
+### [x] 1.0 Node.js 22 Migration Research and Implementation
 
 **Purpose:** Research action version support for Node.js 22 and implement the appropriate migration approach to resolve the Node.js 20 deprecation warning affecting six GitHub Actions dependencies.
 
@@ -50,7 +50,7 @@
 
 ---
 
-### [ ] 2.0 CocoaPods Direct Installation Deprecation Fix
+### [~] 2.0 CocoaPods Direct Installation Deprecation Fix
 
 **Purpose:** Remove the direct `pod install` step from the reusable workflow since `expo run:ios` handles CocoaPods installation internally, eliminating the React Native deprecation warning.
 
@@ -70,7 +70,13 @@
 
 #### 2.0 Tasks
 
-TBD
+- [x] 2.1 Locate the "Install CocoaPods dependencies" step in `.github/workflows/maestro-test-ios-expo-reusable.yml` (around line 105)
+- [x] 2.2 Review the step to confirm it runs `pod install` from the ios/ directory
+- [x] 2.3 Remove the entire "Install CocoaPods dependencies" step from the reusable workflow
+- [x] 2.4 Verify that "Cache CocoaPods dependencies" step remains (caching is independent of explicit pod install)
+- [x] 2.5 Confirm that "Build and deploy iOS app via Expo" step using `expo run:ios` remains intact (this handles CocoaPods internally)
+- [x] 2.6 Validate YAML syntax and structure after removal
+- [x] 2.7 Add inline comment above cache step documenting that CocoaPods are installed automatically by expo run:ios
 
 ---
 

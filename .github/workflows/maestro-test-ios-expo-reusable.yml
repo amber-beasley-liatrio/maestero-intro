@@ -90,6 +90,7 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
         run: pnpm exec expo prebuild --platform ios --clean
       
+      # CocoaPods are installed automatically by expo run:ios command below
       - name: Cache CocoaPods dependencies
         uses: actions/cache@v4
         id: pods-cache
@@ -98,10 +99,6 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles(format('{0}/ios/Podfile.lock', inputs.working-directory)) }}
           restore-keys: |
             ${{ runner.os }}-pods-
-      
-      - name: Install CocoaPods dependencies
-        working-directory: ${{ inputs.working-directory }}/ios
-        run: pod install
       
       - name: Install Maestro CLI
         run: |
