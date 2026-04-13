@@ -71,9 +71,9 @@ jobs:
           path: |
             ${{ inputs.working-directory }}/ios/
             ${{ inputs.working-directory }}/android/
-          key: ${{ runner.os }}-expo-prebuild-${{ hashFiles(format('{0}/app.json', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}
+          key: ${{ runner.os }}-expo-prebuild-v2-${{ hashFiles(format('{0}/app.json', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}
           restore-keys: |
-            ${{ runner.os }}-expo-prebuild-
+            ${{ runner.os }}-expo-prebuild-v2-
       
       - name: Create .env file
         working-directory: ${{ inputs.working-directory }}
@@ -95,9 +95,9 @@ jobs:
         id: pods-cache
         with:
           path: ${{ inputs.working-directory }}/ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles(format('{0}/ios/Podfile.lock', inputs.working-directory)) }}
+          key: ${{ runner.os }}-pods-v2-${{ hashFiles(format('{0}/ios/Podfile.lock', inputs.working-directory)) }}
           restore-keys: |
-            ${{ runner.os }}-pods-
+            ${{ runner.os }}-pods-v2-
       
       - name: Install Maestro CLI
         run: |
