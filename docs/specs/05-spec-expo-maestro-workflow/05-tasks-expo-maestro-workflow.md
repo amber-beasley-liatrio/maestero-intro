@@ -114,6 +114,10 @@
 
 **Purpose:** Create `.github/workflows/maestro-test-ios-expo-reusable.yml` with workflow_call trigger, 6 inputs (5 regular + 1 secret), pnpm setup, Expo prebuild, dual caching strategy (prebuild outputs + CocoaPods), and all test execution steps, establishing the core CI automation for Expo projects.
 
+### [x] 3.0 Caller Workflow Creation and GitHub Actions Testing
+
+**Purpose:** Create `.github/workflows/maestro-expo-ios-tests.yml` caller workflow with workflow_dispatch trigger, configure GitHub repository secret, execute workflow in CI, and validate all steps complete successfully with tests passing.
+
 #### 3.0 Proof Artifact(s)
 
 - File: `.github/workflows/maestro-expo-ios-tests.yml` exists with ~15-20 lines demonstrates caller workflow created
@@ -138,15 +142,15 @@
 - [x] 3.4 Add `with:` block with 5 inputs: `working-directory: '.'`, `simulator-device: 'iPhone 16'`, `timeout-minutes: 40`, `test-path: '.maestro/'`, `artifact-name-prefix: 'maestro-expo-test-results'`
 - [x] 3.5 Add `secrets:` block with `bundle-id: ${{ secrets.EXPO_PUBLIC_BUNDLE_ID_DEBUG }}`
 - [x] 3.6 Commit caller workflow: `git commit -m "feat(ci): add Expo Maestro iOS caller workflow for manual testing"`
-- [ ] 3.7 Configure GitHub repository secret `EXPO_PUBLIC_BUNDLE_ID_DEBUG` with appropriate bundle ID value (e.g., `com.maestrotestapp.dev`)
-- [ ] 3.8 Push branch to GitHub remote
-- [ ] 3.9 Navigate to Actions tab and manually trigger "Expo Maestro iOS Tests" workflow
-- [ ] 3.10 Monitor workflow execution and verify all steps complete successfully
-- [ ] 3.11 Verify pnpm setup logs show correct version and cache configuration
-- [ ] 3.12 Verify Expo prebuild step completes and generates `ios/` directory logs
-- [ ] 3.13 Verify both cache steps (prebuild outputs + CocoaPods) show restore or save actions
-- [ ] 3.14 Verify Maestro test step shows 3/3 passing tests with bundle ID variable accessible
-- [ ] 3.15 Verify test results artifact uploaded with correct name pattern
-- [ ] 3.16 Verify workflow duration < 40 minutes
-- [ ] 3.17 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-03-proofs.md`
-- [ ] 3.18 Commit proof documentation: `git commit -m "docs(spec-05): add Task 3.0 caller workflow and CI testing proofs"`
+- [x] 3.7 Configure GitHub repository secret `EXPO_PUBLIC_BUNDLE_ID_DEBUG` with appropriate bundle ID value (e.g., `com.maestrotestapp.dev`)
+- [x] 3.8 Push branch to GitHub remote
+- [x] 3.9 Navigate to Actions tab and manually trigger "Expo Maestro iOS Tests" workflow
+- [x] 3.10 Monitor workflow execution and verify all steps complete successfully
+- [x] 3.11 Verify pnpm setup logs show correct version and cache configuration
+- [x] 3.12 Verify Expo prebuild step completes and generates `ios/` directory logs
+- [x] 3.13 Verify both cache steps (prebuild outputs + CocoaPods) show restore or save actions
+- [x] 3.14 Verify Maestro test step shows 3/3 passing tests with bundle ID variable accessible
+- [x] 3.15 Verify test results artifact uploaded with correct name pattern
+- [x] 3.16 Verify workflow duration < 40 minutes
+- [x] 3.17 Create proof documentation at `docs/specs/05-spec-expo-maestro-workflow/05-proofs/05-task-03-proofs.md`
+- [x] 3.18 Commit proof documentation: `git commit -m "docs(spec-05): add Task 3.0 caller workflow and CI testing proofs"`
