@@ -1,4 +1,20 @@
 {
+  "expo": {
+    "name": "MaestroTestApp",
+    "slug": "maestro-test-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.maestrotestapp.dev"
+    },
+    "android": {
+      "package": "com.maestrotestapp.dev"
+    }
+  },
   "name": "MaestroTestApp",
   "displayName": "MaestroTestApp"
 }
+
+
