@@ -50,13 +50,12 @@ This specification guides implementation of Maestro iOS mobile testing automatio
 
 **Functional Requirements:**
 - The repository shall contain `.github/workflows/maestro-test-ios-expo-reusable.yml` (or `maestro-test-ios-reusable.yml`) with `workflow_call` trigger
-- The workflow shall accept 5 typed inputs: working-directory (string), simulator-device (string), timeout-minutes (number), test-path (string), artifact-name-prefix (string)
-- The workflow shall accept 1 required secret: bundle-id (string) for iOS bundle identifier
+- The workflow shall accept 6 typed inputs: working-directory (string), simulator-device (string), timeout-minutes (number), test-path (string), artifact-name-prefix (string), bundle-id (string)
 - The workflow shall define environment variables at job-level following GitHub Actions best practices
 - The workflow shall setup pnpm before Node.js to ensure correct package manager availability
 - The workflow shall include dual caching: Expo prebuild outputs (keyed by app.json + package.json) and CocoaPods (keyed by Podfile.lock)
 - The workflow shall run on macos-15 runners for Xcode 16+ support
-- The workflow shall create .env file dynamically from bundle-id secret for Expo prebuild
+- The workflow shall create .env file dynamically from bundle-id input for Expo prebuild
 - The workflow shall execute Expo prebuild to generate native iOS project before building
 - The workflow shall extract simulator UDID using `xcrun simctl list devices available` with device name from inputs
 - The workflow shall start Metro bundler in background and run Maestro tests with `-e APP_BUNDLE_ID` flag and JUNIT output
@@ -64,12 +63,11 @@ This specification guides implementation of Maestro iOS mobile testing automatio
 
 **Proof Artifacts:**
 - File: `.github/workflows/maestro-test-ios-expo-reusable.yml` exists with ~170-180 lines demonstrates reusable workflow created
-- YAML: `workflow_call` trigger with 5 typed inputs (working-directory, simulator-device, timeout-minutes, test-path, artifact-name-prefix) demonstrates proper reusable workflow structure
-- YAML: `secrets:` section with required bundle-id demonstrates secure bundle ID handling
+- YAML: `workflow_call` trigger with 6 typed inputs (working-directory, simulator-device, timeout-minutes, test-path, artifact-name-prefix, bundle-id) demonstrates proper reusable workflow structure
 - YAML: Job-level `env:` block with APP_BUNDLE_ID and MAESTRO_CLI_NO_ANALYTICS demonstrates GitHub best practices
 - YAML: pnpm setup step (`pnpm/action-setup@v4`) before Node.js setup demonstrates correct package manager configuration
 - YAML: Dual cache steps (Expo prebuild + CocoaPods) with `actions/cache@v4` demonstrates optimization included
-- YAML: `.env` file creation from `${{ secrets.bundle-id }}` demonstrates Expo configuration
+- YAML: `.env` file creation from `${{ inputs.bundle-id }}` demonstrates Expo configuration
 - YAML: `expo prebuild --platform ios --clean` step demonstrates Expo project generation
 - YAML: `maestro test -e APP_BUNDLE_ID="$APP_BUNDLE_ID"` demonstrates environment variable passing to tests
 - YAML: UDID extraction using `${{ inputs.simulator-device }}` demonstrates parameterization
@@ -82,16 +80,15 @@ This specification guides implementation of Maestro iOS mobile testing automatio
 **Functional Requirements:**
 - The repository shall contain at least one caller workflow file (e.g., `.github/workflows/maestro-expo-ios-tests.yml`) with `workflow_dispatch` trigger
 - The caller workflow shall use `./.github/workflows/maestro-test-ios-expo-reusable.yml` via the `uses` keyword
-- The caller workflow shall pass appropriate values for all 5 inputs in the `with:` block
-- The caller workflow shall pass bundle-id from repository secrets in the `secrets:` block
-- The caller workflow shall be reduced to ~17 lines total (name, trigger, single job definition)
+- The caller workflow shall pass appropriate values for all 6 inputs in the `with:` block
+- The caller workflow shall be reduced to ~16 lines total (name, trigger, single job definition)
 
 **Proof Artifacts:**
-- File: `.github/workflows/maestro-expo-ios-tests.yml` (or similar) exists with ~17 lines demonstrates caller created
+- File: `.github/workflows/maestro-expo-ios-tests.yml` (or similar) exists with ~16 lines demonstrates caller created
 - YAML: Only `workflow_dispatch` trigger present demonstrates manual-only execution
 - YAML: Job uses `./.github/workflows/maestro-test-ios-expo-reusable.yml` via `uses` keyword demonstrates reusable workflow reference
-- YAML: `with:` block passing values for all 5 inputs demonstrates caller configuration
-- YAML: `secrets:` block with `bundle-id: ${{ secrets.EXPO_PUBLIC_BUNDLE_ID_DEBUG }}` demonstrates secure secret passing
+- YAML: `with:` block passing values for all 6 inputs demonstrates caller configuration
+- YAML: `bundle-id` can be plain text (e.g., `'com.example.app.dev'`) or from GitHub Variables (e.g., `${{ vars.BUNDLE_ID }}`) demonstrates flexible configuration
 
 ### Unit 4: Workflow Validation
 
@@ -153,16 +150,16 @@ Additional repository-specific standards should be identified during context ass
 
 The reusable workflow pattern is based on `amber-beasley-liatrio/maestero-intro` repository:
 
-- **Expo workflow**: `.github/workflows/maestro-test-ios-expo-reusable.yml` (174 lines)
+- **Expo workflow**: `.github/workflows/maestro-test-ios-expo-reusable.yml` (173 lines)
 - **React Native CLI workflow**: `.github/workflows/maestro-test-ios-reusable.yml` (129 lines)
-- **Expo caller example**: `.github/workflows/maestro-expo-ios-tests.yml` (17 lines, manual trigger)
+- **Expo caller example**: `.github/workflows/maestro-expo-ios-tests.yml` (16 lines, manual trigger)
 - **React Native CLI caller example**: `.github/workflows/main.yml` (14 lines, manual trigger)
-- **Expo optimizations**: Dual caching (Expo prebuild + CocoaPods), job-level environment variables, pnpm setup sequence, macos-15 runners, dynamic .env creation, `-e` flag for Maestro environment variables
+- **Expo optimizations**: Dual caching (Expo prebuild + CocoaPods), job-level environment variables, pnpm setup sequence, macos-15 runners, dynamic .env creation, `-e` flag for Maestro environment variables, bundle-id as regular input (not secret)
 - **React Native CLI optimizations**: CocoaPods caching with `actions/cache@v4`, UDID-based simulator targeting, Metro bundler 5-second wait, `pod install --silent`
 
 ### Workflow Input Configuration
 
-The Expo reusable workflow accepts 5 typed inputs and 1 required secret:
+The Expo reusable workflow accepts 6 typed inputs:
 
 **Inputs:**
 1. **working-directory** (string, default: "."): Working directory for monorepo support
@@ -170,11 +167,14 @@ The Expo reusable workflow accepts 5 typed inputs and 1 required secret:
 3. **timeout-minutes** (number, default: 40): Job timeout duration in minutes (Expo workflows typically need more time)
 4. **test-path** (string, default: ".maestro/"): Path to Maestro test files or directories
 5. **artifact-name-prefix** (string, default: "maestro-expo-test-results"): Prefix for uploaded test result artifacts
+6. **bundle-id** (string, required): iOS bundle identifier for the app (e.g., "com.example.app.dev")
 
-**Secrets:**
-1. **bundle-id** (required): iOS bundle identifier for the app (e.g., "com.example.app.dev")
+**Note:** Bundle IDs are not sensitive information (they're publicly visible in the App Store and app binaries), so they can be:
+- **Hardcoded** in the caller workflow: `bundle-id: 'com.maestrotestapp.dev'`
+- **From GitHub Variables**: `bundle-id: ${{ vars.BUNDLE_ID }}`
+- **From GitHub Secrets** (if needed): `bundle-id: ${{ secrets.BUNDLE_ID }}` (though not recommended since they're not secret)
 
-The React Native CLI workflow accepts 4 typed inputs (no working-directory or bundle-id secret needed).
+The React Native CLI workflow accepts 4 typed inputs (no working-directory or bundle-id needed).
 
 Caller workflows should configure these inputs based on repository-specific needs.
 
