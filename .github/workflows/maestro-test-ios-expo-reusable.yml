@@ -38,6 +38,9 @@ jobs:
     name: Run Maestro Tests on Expo iOS
     runs-on: macos-15
     timeout-minutes: ${{ inputs.timeout-minutes }}
+    env:
+      APP_BUNDLE_ID: ${{ secrets.bundle-id }}
+      MAESTRO_CLI_NO_ANALYTICS: 'true'
     
     steps:
       - name: Checkout code
@@ -75,7 +78,7 @@ jobs:
       - name: Create .env file
         working-directory: ${{ inputs.working-directory }}
         run: |
-          echo "EXPO_PUBLIC_BUNDLE_ID_DEBUG=${{ secrets.bundle-id }}" > .env
+          echo "EXPO_PUBLIC_BUNDLE_ID_DEBUG=$APP_BUNDLE_ID" > .env
           echo "✅ Environment file created with bundle ID"
       
       - name: Install pnpm dependencies
@@ -129,12 +132,9 @@ jobs:
         id: maestro-tests
         working-directory: ${{ inputs.working-directory }}
         continue-on-error: true
-        env:
-          APP_BUNDLE_ID: ${{ secrets.bundle-id }}
-          MAESTRO_CLI_NO_ANALYTICS: 'true'
         run: |
           export PATH="$HOME/.maestro/bin:$PATH"
-          maestro test ${{ inputs.test-path }} --format junit --output junit-report.xml
+          maestro test -e APP_BUNDLE_ID="$APP_BUNDLE_ID" ${{ inputs.test-path }} --format junit --output junit-report.xml
       
       - name: Upload Maestro test results
         if: always()
