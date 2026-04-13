@@ -50,7 +50,7 @@
 
 ---
 
-### [~] 2.0 CocoaPods Direct Installation Deprecation Fix
+### [x] 2.0 CocoaPods Direct Installation Deprecation Fix
 
 **Purpose:** Remove the direct `pod install` step from the reusable workflow since `expo run:ios` handles CocoaPods installation internally, eliminating the React Native deprecation warning.
 
@@ -80,7 +80,7 @@
 
 ---
 
-### [ ] 3.0 Validation and Documentation
+### [~] 3.0 Validation and Documentation
 
 **Purpose:** Execute the updated workflow to validate that both deprecation warnings are resolved without test failures or unexpected behavior changes, and document all changes for team awareness.
 
