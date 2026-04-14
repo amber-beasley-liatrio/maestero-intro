@@ -87,7 +87,7 @@ jobs:
       
       - name: Generate native iOS project (Expo prebuild)
         working-directory: ${{ inputs.working-directory }}
-        run: pnpm exec expo prebuild --platform ios --clean
+        run: pnpm exec expo prebuild --platform ios
       
       # CocoaPods are installed automatically by expo run:ios command below
       - name: Cache CocoaPods dependencies
@@ -99,17 +99,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-v2-
       
+      - name: Export production JavaScript bundle
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          pnpm exec expo export --platform ios
+          echo "✅ Production bundle exported"
+      
       - name: Install Maestro CLI
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
           echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-      
-      - name: Start Metro bundler in background
-        working-directory: ${{ inputs.working-directory }}
-        run: |
-          pnpm exec expo start --dev-client --clear --port 8081 &
-          sleep 10
-          echo "✅ Metro bundler started on port 8081"
       
       - name: Get simulator UDID
         id: sim-udid
@@ -118,10 +117,10 @@ jobs:
           echo "SIMULATOR_UDID=$UDID" >> $GITHUB_ENV
           echo "Found ${{ inputs.simulator-device }} UDID: $UDID"
       
-      - name: Build and deploy iOS app via Expo
+      - name: Build and deploy iOS app (Release configuration)
         working-directory: ${{ inputs.working-directory }}
         run: |
-          pnpm exec expo run:ios --device "$SIMULATOR_UDID" --no-bundler
+          pnpm exec expo run:ios --device "$SIMULATOR_UDID" --configuration Release
       
       - name: Run Maestro tests with bundle ID
         id: maestro-tests
