@@ -111,10 +111,10 @@ jobs:
           echo "SIMULATOR_UDID=$UDID" >> $GITHUB_ENV
           echo "Found ${{ inputs.simulator-device }} UDID: $UDID"
       
-      - name: Build and deploy iOS app (Release configuration)
+      - name: Build and install iOS app to simulator (Release)
         working-directory: ${{ inputs.working-directory }}
         run: |
-          pnpm exec expo run:ios --device "$SIMULATOR_UDID" --configuration Release
+          pnpm exec expo run:ios --device "$SIMULATOR_UDID" --configuration Release --no-bundler
       
       - name: Run Maestro tests with bundle ID
         id: maestro-tests
