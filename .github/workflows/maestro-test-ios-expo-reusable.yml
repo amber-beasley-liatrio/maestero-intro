@@ -99,12 +99,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-v2-
       
-      - name: Export production JavaScript bundle
-        working-directory: ${{ inputs.working-directory }}
-        run: |
-          pnpm exec expo export --platform ios
-          echo "✅ Production bundle exported"
-      
       - name: Install Maestro CLI
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
