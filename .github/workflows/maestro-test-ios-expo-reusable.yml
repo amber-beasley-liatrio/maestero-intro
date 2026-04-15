@@ -65,7 +65,7 @@ jobs:
           java-version: '17'
       
       - name: Cache Expo prebuild outputs
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         id: prebuild-cache
         with:
           path: |
@@ -92,7 +92,7 @@ jobs:
         run: pnpm exec expo prebuild --platform ios
       
       - name: Cache CocoaPods dependencies
-        uses: actions/cache@v5
+        uses: actions/cache/restore@v5
         id: pods-cache
         with:
           path: ${{ inputs.working-directory }}/ios/Pods
@@ -167,3 +167,20 @@ jobs:
             echo "::error::Maestro tests failed. See Test Results Summary above."
             exit 1
           fi
+
+      - name: Save Expo prebuild cache
+        if: always()
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            ${{ inputs.working-directory }}/ios
+            !${{ inputs.working-directory }}/ios/Pods
+            ${{ inputs.working-directory }}/android
+          key: ${{ steps.prebuild-cache.outputs.cache-primary-key }}
+
+      - name: Save CocoaPods cache
+        if: always()
+        uses: actions/cache/save@v5
+        with:
+          path: ${{ inputs.working-directory }}/ios/Pods
+          key: ${{ steps.pods-cache.outputs.cache-primary-key }}

@@ -1,0 +1,4 @@
+appId: ${APP_BUNDLE_ID}
+---
+- launchApp
+- assertVisible: "This text does not exist and will never be visible"
