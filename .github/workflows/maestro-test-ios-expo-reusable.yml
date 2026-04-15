@@ -69,11 +69,12 @@ jobs:
         id: prebuild-cache
         with:
           path: |
-            ${{ inputs.working-directory }}/ios/
-            ${{ inputs.working-directory }}/android/
-          key: ${{ runner.os }}-expo-prebuild-v2-${{ hashFiles(format('{0}/app.json', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}
+            ${{ inputs.working-directory }}/ios
+            !${{ inputs.working-directory }}/ios/Pods
+            ${{ inputs.working-directory }}/android
+          key: ${{ runner.os }}-expo-prebuild-v3-${{ hashFiles(format('{0}/app.json', inputs.working-directory), format('{0}/package.json', inputs.working-directory)) }}
           restore-keys: |
-            ${{ runner.os }}-expo-prebuild-v2-
+            ${{ runner.os }}-expo-prebuild-v3-
       
       - name: Create .env file
         working-directory: ${{ inputs.working-directory }}
@@ -86,18 +87,23 @@ jobs:
         run: pnpm install --frozen-lockfile
       
       - name: Generate native iOS project (Expo prebuild)
+        if: steps.prebuild-cache.outputs.cache-hit != 'true'
         working-directory: ${{ inputs.working-directory }}
         run: pnpm exec expo prebuild --platform ios
       
-      # CocoaPods are installed automatically by expo run:ios command below
       - name: Cache CocoaPods dependencies
         uses: actions/cache@v5
         id: pods-cache
         with:
           path: ${{ inputs.working-directory }}/ios/Pods
-          key: ${{ runner.os }}-pods-v2-${{ hashFiles(format('{0}/ios/Podfile.lock', inputs.working-directory)) }}
+          key: ${{ runner.os }}-pods-v3-${{ hashFiles(format('{0}/ios/Podfile.lock', inputs.working-directory)) }}
           restore-keys: |
-            ${{ runner.os }}-pods-v2-
+            ${{ runner.os }}-pods-v3-
+      
+      - name: Install CocoaPods dependencies
+        if: steps.prebuild-cache.outputs.cache-hit == 'true' && steps.pods-cache.outputs.cache-hit != 'true'
+        working-directory: ${{ inputs.working-directory }}/ios
+        run: pod install --repo-update
       
       - name: Install Maestro CLI
         run: |
